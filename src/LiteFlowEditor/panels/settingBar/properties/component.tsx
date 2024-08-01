@@ -52,6 +52,9 @@ const ComponentPropertiesEditor: React.FC<IProps> = (props) => {
         <Form.Item name="tag" label="标签（tag）">
           <Input allowClear/>
         </Form.Item>
+        <Form.Item name="maxWaitSeconds" label="超时(maxWaitSeconds)">
+          <Input allowClear/>
+        </Form.Item>
       </Form>
     </div>
   );
