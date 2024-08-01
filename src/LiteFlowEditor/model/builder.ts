@@ -28,27 +28,27 @@ interface ParseParameters {
  * (1) EL表达式形式：THEN(a, b, c, d)
  * (2) JSON表示形式：
  * {
- type: ConditionTypeEnum.THEN,
- children: [
- { type: NodeTypeEnum.COMMON, id: 'a' },
- { type: NodeTypeEnum.COMMON, id: 'b' },
- { type: NodeTypeEnum.COMMON, id: 'c' },
- { type: NodeTypeEnum.COMMON, id: 'd' },
- ],
- }
+    type: ConditionTypeEnum.THEN,
+    children: [
+      { type: NodeTypeEnum.COMMON, id: 'a' },
+      { type: NodeTypeEnum.COMMON, id: 'b' },
+      { type: NodeTypeEnum.COMMON, id: 'c' },
+      { type: NodeTypeEnum.COMMON, id: 'd' },
+    ],
+  }
  * (3) 通过ELNode节点模型进行表示的组合关系为：
- ┌─────────────────┐
- ┌──▶│  NodeOperator   │
- │   └─────────────────┘
- │   ┌─────────────────┐
- ├──▶│  NodeOperator   │
- ┌─────────┐    ┌─────────────────┐  │   └─────────────────┘
- │  Chain  │───▶│  ThenOperator   │──┤   ┌─────────────────┐
- └─────────┘    └─────────────────┘  ├──▶│  NodeOperator   │
- │   └─────────────────┘
- │   ┌─────────────────┐
- └──▶│  NodeOperator   │
- └─────────────────┘
+                                          ┌─────────────────┐
+                                      ┌──▶│  NodeOperator   │
+                                      │   └─────────────────┘
+                                      │   ┌─────────────────┐
+                                      ├──▶│  NodeOperator   │
+  ┌─────────┐    ┌─────────────────┐  │   └─────────────────┘
+  │  Chain  │───▶│  ThenOperator   │──┤   ┌─────────────────┐
+  └─────────┘    └─────────────────┘  ├──▶│  NodeOperator   │
+                                      │   └─────────────────┘
+                                      │   ┌─────────────────┐
+                                      └──▶│  NodeOperator   │
+                                          └─────────────────┘
  */
 export default class ELBuilder {
   public static build(data: Record<string, any> | Record<string, any>[]) {

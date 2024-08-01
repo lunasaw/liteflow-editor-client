@@ -5,33 +5,33 @@ import {ConditionTypeEnum, LITEFLOW_EDGE, NODE_TYPE_INTERMEDIATE_END, NodeTypeEn
 import NodeOperator from './node-operator';
 
 /**
- * iterator编排操作符：ITERATOR。
+ * Iterator编排操作符：ITERATOR。
  *
  * 例如一个ITERATOR循环编排示例：
  * (1) EL表达式语法：ITERATOR(x).DO(THEN(a, b))
  * (2) JSON表示形式：
  * {
- type: ConditionTypeEnum.ITERATOR,
- condition: { type: NodeTypeEnum.ITERATOR, id: 'x' },
- children: [
- {
- type: ConditionTypeEnum.THEN,
- children: [
- { type: NodeTypeEnum.COMMON, id: 'a' },
- { type: NodeTypeEnum.COMMON, id: 'b' },
- ],
- },
- ],
- }
- * (3) 通过ELNode节点模型进行表示的组合关系为：
- ┌─────────────────┐
- ┌──▶│  NodeOperator   │
- ┌─────────┐    ┌─────────────────┐  │   └─────────────────┘      ┌─────────────────┐
- │  Chain  │───▶│   IteratorOperator   │──┤   ┌─────────────────┐  ┌──▶│  NodeOperator   │
- └─────────┘    └─────────────────┘  └──▶│  ThenOperator   │──┤   └─────────────────┘
- └─────────────────┘  │   ┌─────────────────┐
- └──▶│  NodeOperator   │
- └─────────────────┘
+    type: ConditionTypeEnum.ITERATOR,
+    condition: { type: NodeTypeEnum.ITERATOR, id: 'x' },
+    children: [
+      {
+        type: ConditionTypeEnum.THEN,
+        children: [
+          { type: NodeTypeEnum.COMMON, id: 'a' },
+          { type: NodeTypeEnum.COMMON, id: 'b' },
+        ],
+      },
+    ],
+  }
+  * (3) 通过ELNode节点模型进行表示的组合关系为：
+                                           ┌─────────────────┐
+                                       ┌──▶│  NodeOperator   │
+  ┌─────────┐    ┌──────────────────┐  │   └─────────────────┘      ┌─────────────────┐
+  │  Chain  │───▶│ IteratorOperator │──┤   ┌─────────────────┐  ┌──▶│  NodeOperator   │
+  └─────────┘    └──────────────────┘  └──▶│  ThenOperator   │──┤   └─────────────────┘
+                                           └─────────────────┘  │   ┌─────────────────┐
+                                                                └──▶│  NodeOperator   │
+                                                                    └─────────────────┘
  */
 export default class IteratorOperator extends ELNode {
   type = ConditionTypeEnum.ITERATOR;
