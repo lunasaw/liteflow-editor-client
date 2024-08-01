@@ -331,7 +331,7 @@ export default abstract class ELNode {
     const properties = this.getProperties();
     return Object.keys(properties)
       .filter((key) => properties[key] !== undefined)
-      .map((key) => (key === `req`) ? `.data('${properties[key]}')` : `.${key}(${propertyToString(properties[key])})`)
+      .map((key) => `.${key}(${propertyToString(properties[key])})`)
       .join('');
   }
 

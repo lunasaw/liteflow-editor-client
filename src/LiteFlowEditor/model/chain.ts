@@ -140,7 +140,7 @@ export default class Chain extends ELNode {
       let current: ELNode[] = [];
       next.forEach((item) => {
         const properties = item.getProperties();
-        if (properties.data) {
+        if (properties.data?.name && properties.data?.value) {
           dataProperties.push(properties.data);
         }
 

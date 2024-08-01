@@ -14,21 +14,21 @@ const ComponentPropertiesEditor: React.FC<IProps> = (props) => {
   const properties = model.getProperties();
 
   const [form] = Form.useForm();
-  form.setFieldsValue({
-    id: model.id,
-    tag: model.properties?.tag,
-    req: model.properties?.req
-  });
 
   const handleOnChange = debounce(async () => {
     try {
       const changedValues = await form.validateFields();
-      model.id = changedValues.id ? changedValues.id : model.id;
-      changedValues.id = null;
-      model.setProperties({...properties, ...changedValues});
-
-      // history.push(undefined, {silent: true});
-      history.push();
+      const { id, ...rest } = changedValues
+      model.id = id;
+      model.setProperties({...properties, ...rest});
+      history.push(undefined, {silent: true});
+      // history.push();
+      // 以下是对AntV X6视图层进行临时修改
+      const modelNode = model.getStartNode();
+      const originSize = modelNode.getSize();
+      modelNode
+        .updateAttrs({label: { text: id }})
+        .setSize(originSize); // 解决由于文本修改导致的尺寸错误
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
     }
@@ -39,14 +39,14 @@ const ComponentPropertiesEditor: React.FC<IProps> = (props) => {
       <Form
         layout="vertical"
         form={form}
-        initialValues={{...properties}}
-        // onValuesChange={handleOnChange}
-        onBlur={handleOnChange}
+        initialValues={{...properties, id: model.id}}
+        onValuesChange={handleOnChange}
+        // onBlur={handleOnChange}
       >
         <Form.Item name="id" label="ID">
           <Input allowClear/>
         </Form.Item>
-        <Form.Item name="req" label="参数（data）">
+        <Form.Item name="data" label="参数（data）">
           <Input allowClear/>
         </Form.Item>
         <Form.Item name="tag" label="标签（tag）">
