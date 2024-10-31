@@ -88,15 +88,15 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
 function fineTuneLayer(flowGraph: Graph) {
   let queue = flowGraph.getRootNodes();
   let layer: number = 0;
-  const visited: KeyValue<boolean> = {};
+  // const visited: KeyValue<boolean> = {};
 
   while (queue.length) {
     let cells: Node[] = [];
     queue.forEach((next: Node) => {
-      if (next === null || visited[next.id]) {
-        return;
-      }
-      visited[next.id] = true;
+      // if (next === null || visited[next.id]) {
+      //   return;
+      // }
+      // visited[next.id] = true;
       const { y } = next.position();
       next.position(begin[0] + layer * (ranksep + nodeSize + 40), y);
 
