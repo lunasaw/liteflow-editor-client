@@ -1,6 +1,7 @@
 import { Graph, Node } from '@antv/x6';
 import { DagreLayout, DagreLayoutOptions } from '@antv/layout';
 import { NODE_WIDTH, RANK_SEP, NODE_SEP, ConditionTypeEnum } from '../constant';
+import { KeyValue } from '@antv/x6/lib/types';
 // import dagre from '@dagrejs/dagre';
 // import ELK from 'elkjs/lib/elk.bundled.js';
 // import cytoscape from 'cytoscape';
@@ -45,7 +46,7 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
 
   dagreLayout.updateCfg({
     // ranker: 'tight-tree', // 'tight-tree' 'longest-path' 'network-simplex'
-    // nodeOrder,
+    nodeOrder: getNodeOrderFrom(flowGraph),
     // preset: preset(flowGraph),
     ...cfg,
   });
@@ -87,10 +88,15 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
 function fineTuneLayer(flowGraph: Graph) {
   let queue = flowGraph.getRootNodes();
   let layer: number = 0;
+  const visited: KeyValue<boolean> = {};
 
   while (queue.length) {
     let cells: Node[] = [];
     queue.forEach((next: Node) => {
+      if (next === null || visited[next.id]) {
+        return;
+      }
+      visited[next.id] = true;
       const { y } = next.position();
       next.position(begin[0] + layer * (ranksep + nodeSize + 40), y);
 
@@ -183,6 +189,40 @@ function afterCatchEnd(flowGraph: Graph, catchEnd: Node) {
     });
     queue = cells;
   }
+}
+
+function getNodeOrderFrom(flowGraph: Graph): string[] {
+  const nodeOrder: string[] = [];
+
+  const rootNodes: Node[] = flowGraph.getRootNodes() || [];
+  if (rootNodes) {
+    let queue: Node[] = [...rootNodes];
+    const visited: KeyValue<boolean> = {};
+
+    while (queue.length > 0) {
+      const next = queue.pop();
+      if (next == null || visited[next.id]) {
+        continue;
+      }
+      visited[next.id] = true;
+      nodeOrder.push(next.id);
+
+      const neighbors = flowGraph.getNeighbors(next, {
+        outgoing: true,
+      }) as Node[];
+      neighbors.sort((a: Node, b: Node) => {
+        const { y: aY } = a.position();
+        const { y: bY } = b.position();
+        return aY - bY;
+      });
+      const lastIndex = queue.length;
+      neighbors.forEach((neighbor) => {
+        queue.splice(lastIndex, 0, neighbor);
+      });
+    }
+  }
+
+  return nodeOrder;
 }
 
 /**
