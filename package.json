@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
-    "@antv/layout": "^0.1.31",
+    "@antv/layout": "^0.3.25",
     "@antv/x6": "^1.7.12",
     "@antv/x6-react-components": "^1.1.15",
     "@antv/x6-react-shape": "^1.6.0",
