@@ -21,6 +21,9 @@ import '@antv/x6/dist/x6.css';
 import { forceLayout } from './common/layout';
 import { useModel } from './hooks';
 import { history } from './hooks/useHistory';
+import ELBuilder from './model/builder';
+import { setModel } from './hooks/useModel';
+import { MIN_ZOOM } from './constant';
 
 interface IProps {
   onReady?: (graph: Graph) => void;
@@ -69,6 +72,12 @@ const LiteFlowEditor = forwardRef<React.FC, IProps>(function (props, ref) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         return useModel().toJSON();
       },
+      fromJSON(data: Record<string, any>) {
+        const model = ELBuilder.build(data || {});
+        setModel(model);
+        history.cleanHistory();
+        flowGraph?.zoomToFit({minScale: MIN_ZOOM, maxScale: 1});
+      }
     } as any;
   });
 
