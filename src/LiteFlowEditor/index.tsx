@@ -6,6 +6,7 @@ import React, {
   useImperativeHandle,
 } from 'react';
 import { Graph, Edge, Cell, Node } from '@antv/x6';
+import classNames from 'classnames'
 import createFlowGraph from './panels/flowGraph/createFlowGraph';
 // import NodeEditorModal from './panels/flowGraph/nodeEditorModal';
 import FlowGraphContextMenu from './panels/flowGraph/contextMenu';
@@ -25,8 +26,29 @@ import ELBuilder from './model/builder';
 import { setModel } from './hooks/useModel';
 import { MIN_ZOOM } from './constant';
 
-interface IProps {
+interface ILiteFlowEditorProps {
+  /**
+   * 样式类
+   */
+  className?: string;
+  /**
+   * 生成图示例事件
+   * @param graph 图实例
+   * @returns
+   */
   onReady?: (graph: Graph) => void;
+  /**
+   * 工具栏组件
+   */
+  widgets?: React.FC<any>[];
+  /**
+   * 更多子节点
+   */
+  children?: React.ReactNode;
+  /**
+   * 其他可扩展属性
+   */
+  [key: string]: any;
 }
 
 const defaultMenuInfo: IMenuInfo = {
@@ -52,8 +74,8 @@ const defaultPadInfo: IPadInfo = {
   visible: false,
 };
 
-const LiteFlowEditor = forwardRef<React.FC, IProps>(function (props, ref) {
-  const { onReady } = props;
+const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (props, ref) {
+  const { className, onReady, widgets, children } = props;
   const wrapperRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<HTMLDivElement>(null);
   const miniMapRef = useRef<HTMLDivElement>(null);
@@ -166,8 +188,9 @@ const LiteFlowEditor = forwardRef<React.FC, IProps>(function (props, ref) {
         SideBar={SideBar}
         ToolBar={ToolBar}
         SettingBar={SettingBar}
+        widgets={widgets}
       >
-        <div className={styles.liteflowEditorContainer} ref={wrapperRef}>
+        <div className={classNames(styles.liteflowEditorContainer, className)} ref={wrapperRef}>
           <div className={styles.liteflowEditorGraph} ref={graphRef} />
           <div className={styles.liteflowEditorMiniMap} ref={miniMapRef} />
           {flowGraph && <Breadcrumb flowGraph={flowGraph} />}
@@ -178,6 +201,7 @@ const LiteFlowEditor = forwardRef<React.FC, IProps>(function (props, ref) {
           {flowGraph && (
             <FlowGraphContextPad {...contextPadInfo} flowGraph={flowGraph} />
           )}
+          {children}
         </div>
       </Layout>
     </GraphContext.Provider>

@@ -6,9 +6,10 @@ import styles from './index.module.less';
 
 interface IProps {
   flowGraph: Graph;
+  widgets?: React.FC<any>[];
 }
 
-const ToolBar: React.FC<IProps> = () => {
+const ToolBar: React.FC<IProps> = ({ widgets: customWidgets = [] }) => {
   const flowGraph: Graph = useGraph();
   const forceUpdate = useReducer((n) => n + 1, 0)[1];
 
@@ -28,6 +29,15 @@ const ToolBar: React.FC<IProps> = () => {
           })}
         </div>
       ))}
+      {
+        customWidgets && customWidgets.length && (
+          <div className={styles.liteflowEditorToolBarGroup}>
+            {
+              customWidgets.map((WidgetItem, index) => <WidgetItem key={index} flowGraph={flowGraph} />)
+            }
+          </div>
+        )
+      }
     </div>
   );
 };

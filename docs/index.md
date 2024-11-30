@@ -22,7 +22,7 @@ features:
 ---
 
 ```jsx
-import { LiteFlowEditor } from 'liteflow-editor-client';
+import LiteFlowEditor from './demo';
 
 export default () => (
   <div style={{height: '100vh', background: 'white'}}>

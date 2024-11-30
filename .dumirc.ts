@@ -12,4 +12,10 @@ export default defineConfig({
 <br />
 Powered by self`,
   },
+  proxy: {
+    '/api': {
+      target: 'http://127.0.0.1:10005/',
+      changeOrigin: true,
+    }
+  }
 });

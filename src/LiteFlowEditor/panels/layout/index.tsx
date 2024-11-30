@@ -7,17 +7,19 @@ import styles from './index.module.less';
 
 interface ISubComponentProps {
   flowGraph: Graph;
+  widgets?: React.FC<any>[];
 }
 
 interface IProps {
-  flowGraph: Graph | undefined;
+  flowGraph?: Graph;
   SideBar: React.FC<ISubComponentProps>;
   ToolBar: React.FC<ISubComponentProps>;
   SettingBar: React.FC<ISubComponentProps>;
+  widgets?: React.FC[];
 }
 
 const Layout: React.FC<IProps> = (props) => {
-  const { flowGraph, SideBar, ToolBar, SettingBar } = props;
+  const { flowGraph, SideBar, ToolBar, SettingBar, widgets } = props;
 
   const wrapperRef = useGraphWrapper();
 
@@ -32,7 +34,7 @@ const Layout: React.FC<IProps> = (props) => {
   let sideBar, toolBar, settingBar;
   if (flowGraph) {
     sideBar = <SideBar flowGraph={flowGraph} />;
-    toolBar = <ToolBar flowGraph={flowGraph} />;
+    toolBar = <ToolBar flowGraph={flowGraph} widgets={widgets} />;
     settingBar = <SettingBar flowGraph={flowGraph} />;
   }
 
