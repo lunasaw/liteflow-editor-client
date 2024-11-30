@@ -14,7 +14,7 @@ const ConnectStatus: React.FC = () => {
 
   const syncServer = useCallback(() => {
     return request(`/api/getChainList`, { method: 'GET' })
-    .then(async (data) => {
+    .then((data) => {
       if (data && data.length) {
         setStatus(Status.connected);
       } else {
