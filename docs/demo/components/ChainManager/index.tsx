@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import request from 'umi-request';
 import {Select} from 'antd';
+import { GraphContext } from '../../../../src/index'
 import './index.less'
 
 type Chain = {
@@ -13,16 +14,27 @@ const ChainManager: React.FC = () => {
 
   const getChainList = useCallback(() => {
     return request(`/api/getChainList`, { method: 'GET' })
-    .then((data) => {
-      if (data && data.length) {
-        setChains(data);
-      }
-    })
+            .then((data) => {
+              if (data && data.length) {
+                setChains(data);
+              }
+            })
   }, [setChains]);
 
   useEffect(() => {
     getChainList();
   }, []);
+
+  const { currentEditor } = useContext<any>(GraphContext)
+
+  const handleOnChange = (chainId: string) => {
+    request(`/api/getChainById?chainId=${chainId}`, { method: 'GET' })
+      .then((data) => {
+        if (data) {
+          currentEditor.fromJSON(data)
+        }
+      })
+  };
 
   return (
     <div className='chain-manager-wrapper'>
@@ -34,6 +46,7 @@ const ChainManager: React.FC = () => {
           label: chainName,
           value: chainId,
         }))}
+        onChange={handleOnChange}
       />
     </div>
   );

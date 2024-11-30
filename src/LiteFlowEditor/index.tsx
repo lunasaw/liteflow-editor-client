@@ -85,23 +85,22 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
   const [contextPadInfo, setContextPadInfo] =
     useState<IPadInfo>(defaultPadInfo);
 
-  useImperativeHandle(ref, () => {
-    return {
-      getGraphInstance() {
-        return flowGraph;
-      },
-      toJSON() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        return useModel().toJSON();
-      },
-      fromJSON(data: Record<string, any>) {
-        const model = ELBuilder.build(data || {});
-        setModel(model);
-        history.cleanHistory();
-        flowGraph?.zoomToFit({minScale: MIN_ZOOM, maxScale: 1});
-      }
-    } as any;
-  });
+  const currentEditor = {
+    getGraphInstance() {
+      return flowGraph;
+    },
+    toJSON() {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      return useModel().toJSON();
+    },
+    fromJSON(data: Record<string, any>) {
+      const model = ELBuilder.build(data || {});
+      setModel(model);
+      history.cleanHistory();
+      flowGraph?.zoomToFit({minScale: MIN_ZOOM, maxScale: 1});
+    }
+  }
+  useImperativeHandle(ref, () => currentEditor as any);
 
   useEffect(() => {
     if (graphRef.current && miniMapRef.current) {
@@ -181,7 +180,7 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
   return (
     // @ts-ignore
     <GraphContext.Provider // @ts-ignore
-      value={{ graph: flowGraph, graphWrapper: wrapperRef, model: null }}
+      value={{ graph: flowGraph, graphWrapper: wrapperRef, model: null, currentEditor }}
     >
       <Layout
         flowGraph={flowGraph}
