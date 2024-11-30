@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import request from 'umi-request';
-import {Select} from 'antd';
-import { GraphContext } from '../../../../src/index'
-import './index.less'
+import {Select, Button} from 'antd';
+import { SaveOutlined } from '@ant-design/icons';
+import { GraphContext } from '../../../../src/index';
+import ChainSettings from './ChainSettings';
+import './index.less';
 
 type Chain = {
   chainId: string;
@@ -48,6 +50,8 @@ const ChainManager: React.FC = () => {
         }))}
         onChange={handleOnChange}
       />
+      <Button type='primary' icon={<SaveOutlined />} className='chain-manager-save-btn'>保存</Button>
+      <ChainSettings value={chains} />
     </div>
   );
 }
