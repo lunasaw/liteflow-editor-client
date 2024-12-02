@@ -9,7 +9,7 @@ interface IProps {
   widgets?: React.FC<any>[];
 }
 
-const ToolBar: React.FC<IProps> = ({ widgets: customWidgets = [] }) => {
+const ToolBar: React.FC<IProps> = ({ widgets: customWidgets }) => {
   const flowGraph: Graph = useGraph();
   const forceUpdate = useReducer((n) => n + 1, 0)[1];
 
@@ -20,6 +20,15 @@ const ToolBar: React.FC<IProps> = ({ widgets: customWidgets = [] }) => {
     };
   }, [flowGraph]);
 
+  let customWidgetsGroup = null
+  if (customWidgets && customWidgets.length) {
+    customWidgetsGroup = (
+      <div className={styles.liteflowEditorToolBarGroup}>
+        { customWidgets.map((WidgetItem, index) => <WidgetItem key={index} flowGraph={flowGraph} />) }
+      </div>
+    )
+  }
+
   return (
     <div className={styles.liteflowEditorToolBarContainer}>
       {widgets.map((group, index) => (
@@ -29,15 +38,7 @@ const ToolBar: React.FC<IProps> = ({ widgets: customWidgets = [] }) => {
           })}
         </div>
       ))}
-      {
-        customWidgets && customWidgets.length && (
-          <div className={styles.liteflowEditorToolBarGroup}>
-            {
-              customWidgets.map((WidgetItem, index) => <WidgetItem key={index} flowGraph={flowGraph} />)
-            }
-          </div>
-        )
-      }
+      { customWidgetsGroup }
     </div>
   );
 };
