@@ -46,22 +46,34 @@ const ChainManager: React.FC = () => {
       data: {...currentChain, elJson: currentEditor.toJSON()}
     })
       .then((data) => {
-        if (data) {
-          Modal.success({ title: '操作成功' })
+        if (data.code === 'S') {
+          Modal.success({ title: '操作成功', content: data.message })
+        } else {
+          Modal.error({ title: '操作失败', content: data.message })
         }
       })
   }
 
   const handleDelete = () => {
-    request(`/api/deleteChain`, {
-      method: 'POST',
-      data: {...currentChain}
+    Modal.confirm({
+      title: '操作确认',
+      content: '请确认是否删除当前记录？',
+      onOk() {
+        return request(`/api/deleteChain`, {
+          method: 'POST',
+          data: {...currentChain}
+        })
+          .then((data) => {
+            if (data.code === 'S') {
+              Modal.success({ title: '操作成功', content: data.message })
+              setCurrentChain(undefined)
+              setChains(chains.filter(chain => chain !== currentChain))
+            } else {
+              Modal.error({ title: '操作失败', content: data.message })
+            }
+          })
+      }
     })
-      .then((data) => {
-        if (data) {
-          Modal.success({ title: '操作成功' })
-        }
-      })
   }
 
   const handleAddChain = (newChain) => {
@@ -73,8 +85,10 @@ const ChainManager: React.FC = () => {
       data: {...newChain}
     })
       .then((data) => {
-        if (data) {
-          Modal.success({ title: '操作成功' })
+        if (data.code === 'S') {
+          Modal.success({ title: '操作成功', content: data.message })
+        } else {
+          Modal.error({ title: '操作失败', content: data.message })
         }
       })
   }
@@ -92,12 +106,12 @@ const ChainManager: React.FC = () => {
         onChange={handleOnChange}
       />
       <Tooltip title='保存当前修改' placement='bottom'>
-        <Button type='primary' className='chain-manager-save-btn' onClick={handleSave} disabled={!chains.length}>
+        <Button type='primary' className='chain-manager-save-btn' onClick={handleSave} disabled={!chains.length || !currentChain?.chainId}>
           <SaveOutlined /> 保存
         </Button>
       </Tooltip>
       <Tooltip title='删除当前记录' placement='bottom'>
-        <Button type='primary' danger className='chain-manager-delete-btn' onClick={handleDelete} disabled={!chains.length}>
+        <Button type='primary' danger className='chain-manager-delete-btn' onClick={handleDelete} disabled={!chains.length || !currentChain?.chainId}>
           <DeleteOutlined /> 删除
         </Button>
       </Tooltip>
