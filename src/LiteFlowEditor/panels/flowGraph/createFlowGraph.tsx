@@ -191,7 +191,7 @@ const createFlowChart = (
     // },
     interacting: {
       nodeMovable: true,
-      edgeLabelMovable: true,
+      edgeLabelMovable: false,
     },
   });
   registerEvents(flowGraph);

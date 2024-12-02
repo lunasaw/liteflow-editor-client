@@ -76,7 +76,7 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
 
   fineTuneLayer(flowGraph);
 
-  fineTuneCatchNodes(flowGraph);
+  // fineTuneCatchNodes(flowGraph);
 
   flowGraph.unfreeze();
 }
