@@ -77,8 +77,6 @@ const ChainManager: React.FC = () => {
   }
 
   const handleAddChain = (newChain) => {
-    setChains([...chains, newChain]);
-    setCurrentChain(newChain);
     currentEditor.fromJSON({});
     request(`/api/createChain`, {
       method: 'POST',
@@ -87,6 +85,8 @@ const ChainManager: React.FC = () => {
       .then((data) => {
         if (data.code === 'S') {
           Modal.success({ title: '操作成功', content: data.message })
+          setChains([...chains, newChain]);
+          setCurrentChain(newChain);
         } else {
           Modal.error({ title: '操作失败', content: data.message })
         }
@@ -115,7 +115,7 @@ const ChainManager: React.FC = () => {
           <DeleteOutlined /> 删除
         </Button>
       </Tooltip>
-      <AddChain onChange={handleAddChain} disabled={!chains.length} />
+      <AddChain onChange={handleAddChain} />
     </div>
   );
 }

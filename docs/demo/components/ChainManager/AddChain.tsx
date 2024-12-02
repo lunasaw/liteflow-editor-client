@@ -45,6 +45,7 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, disabled }) => 
         </Button>
       </Tooltip>
       <Modal
+        title='新增Chain'
         className={classNames('chain-manager-settings-modal')}
         width={900}
         open={isModalOpen}
