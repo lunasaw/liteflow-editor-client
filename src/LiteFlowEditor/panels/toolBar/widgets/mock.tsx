@@ -2,10 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Graph} from '@antv/x6';
 import {Select} from 'antd';
 import mocks from '../../../mock';
-import ELBuilder from '../../../model/builder';
-import {ConditionTypeEnum, MIN_ZOOM} from '../../../constant';
-import {setModel} from '../../../hooks/useModel';
-import {history} from '../../../hooks/useHistory';
+import {ConditionTypeEnum} from '../../../constant';
 import styles from './index.module.less';
 import GraphContext from '../../../context/GraphContext';
 
