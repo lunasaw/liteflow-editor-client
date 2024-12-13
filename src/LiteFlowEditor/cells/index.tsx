@@ -196,6 +196,7 @@ export const getIconByType = (nodeType: ConditionTypeEnum | NodeTypeEnum) => {
 export function getNodeShapeByType(nodeType: NodeTypeEnum) : string {
   switch(nodeType) {
     case NodeTypeEnum.BOOLEAN:
+    case NodeTypeEnum.BOOLEAN_SCRIPT:
     case NodeTypeEnum.IF:
     case NodeTypeEnum.IF_SCRIPT:
       return NodeTypeEnum.IF;

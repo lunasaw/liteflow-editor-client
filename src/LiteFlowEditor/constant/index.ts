@@ -39,6 +39,8 @@ export enum NodeTypeEnum {
 
   SCRIPT = 'ScriptCommonComponent', // script, 脚本
 
+  BOOLEAN_SCRIPT = 'ScriptBooleanComponent', // boolean_script, 布尔脚本
+
   SWITCH_SCRIPT = 'ScriptSwitchComponent', // switch_script, 选择脚本
 
   IF_SCRIPT = 'ScriptIfComponent', // if_script, 条件脚本
