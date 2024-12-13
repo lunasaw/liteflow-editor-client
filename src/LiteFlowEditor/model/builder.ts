@@ -19,6 +19,7 @@ import ELNode from './node';
 interface ParseParameters {
   data: Record<string, any>;
   parent: ELNode;
+  type?: NodeTypeEnum | ConditionTypeEnum;
 }
 
 /**
@@ -158,7 +159,7 @@ export function parse({parent, data}: ParseParameters): ELNode | undefined {
     case ConditionTypeEnum.BREAK:
     case ConditionTypeEnum.ABSTRACT:
     case ConditionTypeEnum.DEFAULT:
-      return parseOperator({parent: new ThenOperator(parent), data});
+      return parseOperator({parent: new ThenOperator(parent), data, type: data.type});
     // 2、组件类：顺序、分支、循环
     case NodeTypeEnum.COMMON:
     default:
@@ -166,7 +167,7 @@ export function parse({parent, data}: ParseParameters): ELNode | undefined {
   }
 }
 
-function parseOperator({parent, data}: ParseParameters): ELNode {
+function parseOperator({parent, data, type}: ParseParameters): ELNode {
   const {condition, children = [], properties} = data;
   if (condition) {
     const conditionNode = parse({parent, data: condition});
@@ -184,6 +185,9 @@ function parseOperator({parent, data}: ParseParameters): ELNode {
   }
   if (properties) {
     parent.setProperties(properties);
+  }
+  if (type) {
+    parent.type = type
   }
   return parent;
 }

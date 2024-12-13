@@ -135,12 +135,13 @@ export default class WhenOperator extends ELNode {
    * 转换为EL表达式字符串
    */
   public toEL(prefix: string = ''): string {
+    const { type } = this;
     if (prefix) {
-      return `${prefix}WHEN(\n${this.children
+      return `${prefix}${type}(\n${this.children
         .map((x) => x.toEL(`${prefix}  `))
         .join(', \n')}\n${prefix})${this.propertiesToEL()}`;
     }
-    return `WHEN(${this.children
+    return `${type}(${this.children
       .map((x) => x.toEL())
       .join(', ')})${this.propertiesToEL()}`;
   }
