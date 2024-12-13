@@ -1,7 +1,7 @@
 import React from 'react';
 import {Graph, Node} from '@antv/x6';
 import '@antv/x6-react-shape';
-import {ConditionTypeEnum, NODE_HEIGHT, NODE_WIDTH, NodeTypeEnum,} from '../constant';
+import {ConditionTypeEnum, NODE_HEIGHT, NODE_TYPE_INTERMEDIATE_END, NODE_WIDTH, NodeTypeEnum,} from '../constant';
 /** AntV X6自定义节点 */
 // 开始 & 结束
 import {default as Start} from './start';
@@ -192,3 +192,32 @@ export const getIconByType = (nodeType: ConditionTypeEnum | NodeTypeEnum) => {
       return Common.icon;
   }
 };
+
+export function getNodeShapeByType(nodeType: NodeTypeEnum) : string {
+  switch(nodeType) {
+    case NodeTypeEnum.BOOLEAN:
+    case NodeTypeEnum.IF:
+    case NodeTypeEnum.IF_SCRIPT:
+      return NodeTypeEnum.IF;
+    case NodeTypeEnum.SWITCH_SCRIPT:
+    case NodeTypeEnum.SWITCH:
+      return NodeTypeEnum.SWITCH;
+    case NodeTypeEnum.FOR:
+    case NodeTypeEnum.FOR_SCRIPT:
+      return NodeTypeEnum.FOR;
+    case NodeTypeEnum.WHILE:
+      return NodeTypeEnum.WHILE;
+    case NodeTypeEnum.ITERATOR:
+        return NodeTypeEnum.ITERATOR;
+    case NodeTypeEnum.BREAK:
+    case NodeTypeEnum.BREAK_SCRIPT:
+      return NODE_TYPE_INTERMEDIATE_END;
+    case NodeTypeEnum.VIRTUAL:
+      return NodeTypeEnum.VIRTUAL;
+    case NodeTypeEnum.COMMON:
+    case NodeTypeEnum.FALLBACK:
+    case NodeTypeEnum.SCRIPT:
+    default:
+      return NodeTypeEnum.COMMON;
+  }
+}

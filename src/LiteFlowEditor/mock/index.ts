@@ -41,13 +41,13 @@ export default {
   // 条件编排(IF)
   IF: {
     type: ConditionTypeEnum.IF,
-    condition: { type: NodeTypeEnum.IF, id: 'x' },
+    condition: { type: NodeTypeEnum.BOOLEAN, id: 'x' },
     children: [{ type: NodeTypeEnum.COMMON, id: 'a' }],
   },
   // FOR循环
   FOR: {
     type: ConditionTypeEnum.FOR,
-    condition: { type: NodeTypeEnum.FOR, id: 'x' },
+    condition: { type: NodeTypeEnum.BOOLEAN, id: 'x' },
     children: [
       {
         type: ConditionTypeEnum.THEN,
@@ -61,7 +61,7 @@ export default {
   // WHILE循环
   WHILE: {
     type: ConditionTypeEnum.WHILE,
-    condition: { type: NodeTypeEnum.WHILE, id: 'x' },
+    condition: { type: NodeTypeEnum.BOOLEAN, id: 'x' },
     children: [
       {
         type: ConditionTypeEnum.THEN,
@@ -116,14 +116,14 @@ export default {
         {
           type: ConditionTypeEnum.OR,
           children: [
-            { type: NodeTypeEnum.COMMON, id: 'a' },
-            { type: NodeTypeEnum.COMMON, id: 'b' },
+            { type: NodeTypeEnum.BOOLEAN, id: 'a' },
+            { type: NodeTypeEnum.BOOLEAN, id: 'b' },
           ]
         },
         {
           type: ConditionTypeEnum.NOT,
           children: [
-            { type: NodeTypeEnum.COMMON, id: 'c' },
+            { type: NodeTypeEnum.BOOLEAN, id: 'c' },
           ]
         }
       ]

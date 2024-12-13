@@ -1,6 +1,7 @@
 import { Cell, Node } from '@antv/x6';
 import ELNode, { Properties } from '../node';
 import { NodeTypeEnum } from '../../constant';
+import { getNodeShapeByType } from '../../cells';
 
 /**
  * 节点组件操作符：是EL表达式树型结构的叶子结点。
@@ -74,7 +75,7 @@ export default class NodeOperator extends ELNode {
     this.resetCells(cells);
     const { id, type } = this;
     const node = Node.create({
-      shape: type,
+      shape: getNodeShapeByType(type),
       attrs: {
         label: { text: id },
       },

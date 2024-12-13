@@ -14,6 +14,8 @@ const NodeBadge: React.FC<{ node: Node }> = (props) => {
     if (
       currentModel.type !== node.shape &&
       currentModel.type !== NodeTypeEnum.COMMON &&
+      currentModel.type !== NodeTypeEnum.BOOLEAN &&
+      currentModel.type !== NodeTypeEnum.VIRTUAL &&
       currentModel.type !== ConditionTypeEnum.CHAIN &&
       NODE_TYPE_INTERMEDIATE_END !== node.shape
     ) {
