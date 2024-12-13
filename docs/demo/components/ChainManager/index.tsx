@@ -34,8 +34,8 @@ const ChainManager: React.FC = () => {
     setCurrentChain(chains.find(chain => chain.chainId === chainId))
     request(`/api/getChainById?chainId=${chainId}`, { method: 'GET' })
       .then((data) => {
-        if (data) {
-          currentEditor.fromJSON(data)
+        if (data?.elJson) {
+          currentEditor.fromJSON(data.elJson)
         }
       })
   };
