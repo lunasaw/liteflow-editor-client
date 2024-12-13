@@ -200,13 +200,14 @@ export function getNodeShapeByType(nodeType: NodeTypeEnum) : string {
     case NodeTypeEnum.IF:
     case NodeTypeEnum.IF_SCRIPT:
       return NodeTypeEnum.IF;
-    case NodeTypeEnum.SWITCH_SCRIPT:
     case NodeTypeEnum.SWITCH:
+    case NodeTypeEnum.SWITCH_SCRIPT:
       return NodeTypeEnum.SWITCH;
     case NodeTypeEnum.FOR:
     case NodeTypeEnum.FOR_SCRIPT:
       return NodeTypeEnum.FOR;
     case NodeTypeEnum.WHILE:
+    case NodeTypeEnum.WHILE_SCRIPT:
       return NodeTypeEnum.WHILE;
     case NodeTypeEnum.ITERATOR:
         return NodeTypeEnum.ITERATOR;
