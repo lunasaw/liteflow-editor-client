@@ -63,8 +63,10 @@ export default class ELBuilder {
     switch (type) {
       // 1. 编排类型
       case ConditionTypeEnum.THEN:
+      case ConditionTypeEnum.SER:
         return ThenOperator.create(parent);
       case ConditionTypeEnum.WHEN:
+      case ConditionTypeEnum.PAR:
         return WhenOperator.create(parent);
       case ConditionTypeEnum.SWITCH:
         return SwitchOperator.create(parent);
@@ -84,6 +86,13 @@ export default class ELBuilder {
         return OrOperator.create(parent);
       case ConditionTypeEnum.NOT:
         return NotOperator.create(parent);
+      case ConditionTypeEnum.CHAIN:
+      case ConditionTypeEnum.PRE:
+      case ConditionTypeEnum.FINALLY:
+      case ConditionTypeEnum.BREAK:
+      case ConditionTypeEnum.ABSTRACT:
+      case ConditionTypeEnum.DEFAULT:
+          return ThenOperator.create(parent);
       // 2. 节点类型
       case NodeTypeEnum.COMMON:
       default:

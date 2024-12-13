@@ -58,11 +58,15 @@ export enum NodeTypeEnum {
 
 /** 逻辑编排类型 */
 export enum ConditionTypeEnum {
-  CHAIN = 'CHAIN', // chain，编排的根节点
+  CHAIN = 'CHAIN', // chain，编排的根节点或者子流程
 
   THEN = 'THEN', // then，串行编排
 
+  SER = 'SER', // ser，串行编排
+
   WHEN = 'WHEN', // when，并行编排
+
+  PAR = 'PAR', // par，并行编排
 
   SWITCH = 'SWITCH', // switch，选择编排
 
@@ -89,4 +93,6 @@ export enum ConditionTypeEnum {
   NOT = 'NOT', // not，非
 
   ABSTRACT = 'ABSTRACT', // abstract
+
+  DEFAULT = 'DEFAULT', // default
 }
