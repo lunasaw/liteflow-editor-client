@@ -129,8 +129,10 @@ export function parse({parent, data}: ParseParameters): ELNode | undefined {
   switch (data.type) {
     // 1、编排类：顺序、分支、循环
     case ConditionTypeEnum.THEN:
+    case ConditionTypeEnum.SER:
       return parseOperator({parent: new ThenOperator(parent), data});
     case ConditionTypeEnum.WHEN:
+    case ConditionTypeEnum.PAR:
       return parseOperator({parent: new WhenOperator(parent), data});
     case ConditionTypeEnum.SWITCH:
       return parseOperator({parent: new SwitchOperator(parent), data});
@@ -150,7 +152,13 @@ export function parse({parent, data}: ParseParameters): ELNode | undefined {
       return parseOperator({parent: new OrOperator(parent), data});
     case ConditionTypeEnum.NOT:
       return parseOperator({parent: new NotOperator(parent), data});
-
+    case ConditionTypeEnum.CHAIN:
+    case ConditionTypeEnum.PRE:
+    case ConditionTypeEnum.FINALLY:
+    case ConditionTypeEnum.BREAK:
+    case ConditionTypeEnum.ABSTRACT:
+    case ConditionTypeEnum.DEFAULT:
+      return parseOperator({parent: new ThenOperator(parent), data});
     // 2、组件类：顺序、分支、循环
     case NodeTypeEnum.COMMON:
     default:
