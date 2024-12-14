@@ -52,6 +52,8 @@ export default abstract class ELNode {
   public startNode?: Node;
   // 当前操作符节点的结束节点
   public endNode?: Node;
+  // 是否折叠
+  collapsed: boolean = false;
 
   /**
    * 在后面添加子节点
@@ -262,7 +264,7 @@ export default abstract class ELNode {
     if (this.condition) {
       cells = cells.concat(this.condition.getCells());
     }
-    if (this.children && this.children.length) {
+    if (this.children && this.children.length && !this.collapsed) {
       this.children.forEach((child) => {
         cells = cells.concat(child.getCells());
       });
@@ -370,6 +372,21 @@ export default abstract class ELNode {
     }
     return false;
   }
+
+  /**
+   * 是否折叠
+   */
+  public isCollapsed(): boolean {
+    return this.collapsed
+  }
+
+  /**
+   * 折叠：展开、收起
+   */
+  public toggleCollapse(collapsed?: boolean): void {
+    const target = typeof collapsed !== 'boolean' ? !this.collapsed : collapsed
+    this.collapsed = !!target
+  }
 }
 
 /**
@@ -389,6 +406,7 @@ export interface INodeData {
     append?: boolean;
     delete?: boolean;
     replace?: boolean;
+    collapse?: boolean;
   };
 }
 

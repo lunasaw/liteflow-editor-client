@@ -3,7 +3,7 @@ import { Node } from '@antv/x6';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 import { Modal, Tooltip } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { INodeData } from '../../model/node';
 import styles from './index.module.less';
 import { history } from '../../hooks/useHistory';
@@ -12,7 +12,7 @@ const NodeToolBar: React.FC<{ node: Node }> = (props) => {
   const { node } = props;
   const {
     model,
-    toolbar = { append: true, delete: true, prepend: true, replace: true },
+    toolbar = { append: true, delete: true, prepend: true, replace: true, collapse: false, },
   } = node.getData<INodeData>() || {};
   const showContextPad = debounce((info: any) => {
     node.model?.graph?.trigger('graph:showContextPad', info);
@@ -63,6 +63,12 @@ const NodeToolBar: React.FC<{ node: Node }> = (props) => {
       },
     });
   }, 100);
+  const onCollapse = debounce(() => {
+    model.toggleCollapse();
+    node.model?.graph?.trigger('model:change');
+  }, 100);
+
+  const collapsed = model.isCollapsed()
   return (
     <div className={classNames(styles.liteflowNodeToolBar)}>
       {toolbar.prepend && (
@@ -113,6 +119,19 @@ const NodeToolBar: React.FC<{ node: Node }> = (props) => {
             </div>
           }
         </div>
+      )}
+      {toolbar.collapse && (
+        <div className={classNames(styles.liteflowTopToolBar)}>
+          <div
+            className={classNames(styles.liteflowToolBarBtn, styles.liteflowCollapseNode)}
+            onClick={onCollapse}
+          >
+            <Tooltip title={collapsed ? "展开节点" : "折叠节点"}>
+              {collapsed ? <PlusCircleOutlined /> : <MinusCircleOutlined />}
+            </Tooltip>
+          </div>
+        </div>
+
       )}
     </div>
   );

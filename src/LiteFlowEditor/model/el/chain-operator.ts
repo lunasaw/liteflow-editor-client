@@ -42,7 +42,7 @@ export default class ChainOperator extends ELNode {
   properties?: Properties;
   startNode?: Node;
   endNode?: Node;
-  id: string = '';
+  id?: string;
 
   constructor(parent?: ELNode, id?: string, children?: ELNode[], properties?: Properties) {
     super();
@@ -52,6 +52,7 @@ export default class ChainOperator extends ELNode {
       this.children = children;
     }
     this.properties = properties;
+    super.toggleCollapse(true);
   }
 
   /**
@@ -80,51 +81,74 @@ export default class ChainOperator extends ELNode {
         label: { text: id },
       },
     });
-    start.setData({ model: new ELStartNode(this) }, { overwrite: true });
+    start.setData({
+      model: new ELStartNode(this),
+      toolbar: {
+        prepend: true,
+        append: true,
+        delete: true,
+        replace: true,
+        collapse: true,
+      },
+    }, { overwrite: true });
     cells.push(this.addNode(start));
     this.startNode = start;
 
-    const end = Node.create({
-      shape: NODE_TYPE_INTERMEDIATE_END,
-      attrs: {
-        label: { text: '' },
-      },
-    });
-    end.setData({ model: new ELEndNode(this) }, { overwrite: true });
-    cells.push(this.addNode(end));
-    this.endNode = end;
-
-    if (children.length) {
-      children.forEach((child) => {
-        child.toCells([], options);
-        const nextStartNode = child.getStartNode();
+    if (!this.collapsed) {
+      const end = Node.create({
+        shape: NODE_TYPE_INTERMEDIATE_END,
+        attrs: {
+          label: { text: '' },
+        },
+      });
+      end.setData({ model: new ELEndNode(this) }, { overwrite: true });
+      cells.push(this.addNode(end));
+      this.endNode = end;
+      if (children.length) {
+        children.forEach((child) => {
+          child.toCells([], options);
+          const nextStartNode = child.getStartNode();
+          cells.push(
+            Edge.create({
+              shape: LITEFLOW_EDGE,
+              source: start.id,
+              target: nextStartNode.id,
+            }),
+          );
+          const nextEndNode = child.getEndNode();
+          cells.push(
+            Edge.create({
+              shape: LITEFLOW_EDGE,
+              source: nextEndNode.id,
+              target: end.id,
+            }),
+          );
+        });
+      } else {
         cells.push(
           Edge.create({
             shape: LITEFLOW_EDGE,
             source: start.id,
-            target: nextStartNode.id,
-          }),
-        );
-        const nextEndNode = child.getEndNode();
-        cells.push(
-          Edge.create({
-            shape: LITEFLOW_EDGE,
-            source: nextEndNode.id,
             target: end.id,
           }),
         );
-      });
-    } else {
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: start.id,
-          target: end.id,
-        }),
-      );
+      }
     }
-
     return this.getCells();
+  }
+
+  /**
+   * 获取当前节点的开始节点
+   */
+  public getStartNode(): Node {
+    return this.startNode as Node;
+  }
+
+  /**
+   * 获取当前节点的结束节点
+   */
+  public getEndNode(): Node {
+    return this.collapsed ? this.startNode as Node : this.endNode as Node;
   }
 
   /**

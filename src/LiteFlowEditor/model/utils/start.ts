@@ -124,4 +124,18 @@ export default class ELStartNode extends ELNode {
   public toJSON(): Record<string, any> {
     return this.proxy.toJSON();
   }
+
+   /**
+   * 是否折叠
+   */
+   public isCollapsed(): boolean {
+    return this.proxy.isCollapsed();
+  }
+
+  /**
+   * 折叠：展开、收起
+   */
+  public toggleCollapse(collapsed?: boolean) {
+    this.proxy.toggleCollapse(collapsed);
+  }
 }
