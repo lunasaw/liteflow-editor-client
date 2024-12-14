@@ -46,7 +46,7 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
 
   dagreLayout.updateCfg({
     // ranker: 'tight-tree', // 'tight-tree' 'longest-path' 'network-simplex'
-    nodeOrder: getNodeOrderFrom(flowGraph),
+    // nodeOrder: getNodeOrderFrom(flowGraph),
     // preset: preset(flowGraph),
     ...cfg,
   });

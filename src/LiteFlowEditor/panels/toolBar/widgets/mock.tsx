@@ -24,7 +24,7 @@ const Mock: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      handleOnChange(ConditionTypeEnum.CATCH);
+      handleOnChange(ConditionTypeEnum.CHAIN);
     }, 500);
   }, [flowGraph]);
 

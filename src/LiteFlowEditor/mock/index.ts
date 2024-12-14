@@ -133,4 +133,80 @@ export default {
       { type: NodeTypeEnum.COMMON, id: 'y' },
     ],
   },
+  // CHAIN 子流程
+  CHAIN: {
+    type: ConditionTypeEnum.THEN,
+    children: [
+      { type: NodeTypeEnum.COMMON, id: 'A' },
+      { type: NodeTypeEnum.COMMON, id: 'B' },
+      {
+        type: ConditionTypeEnum.WHEN,
+        children: [
+          {
+            type: ConditionTypeEnum.CHAIN,
+            id: 't1',
+            children: [
+              {
+                type: ConditionTypeEnum.THEN,
+                children: [
+                  { type: NodeTypeEnum.COMMON, id: 'C' },
+                  {
+                    type: ConditionTypeEnum.WHEN,
+                    children: [
+                      { type: NodeTypeEnum.COMMON, id: 'J' },
+                      { type: NodeTypeEnum.COMMON, id: 'K' },
+                    ]
+                  },
+                ]
+              }
+            ],
+          },
+          { type: NodeTypeEnum.COMMON, id: 'D' },
+          {
+            type: ConditionTypeEnum.CHAIN,
+            id: 't2',
+            children: [
+              {
+                type: ConditionTypeEnum.THEN,
+                children: [
+                  { type: NodeTypeEnum.COMMON, id: 'H' },
+                  { type: NodeTypeEnum.COMMON, id: 'I' },
+                ]
+              }
+            ],
+          },
+        ],
+      },
+      {
+        type: ConditionTypeEnum.SWITCH,
+        condition: { type: NodeTypeEnum.COMMON, id: 'X'},
+        children: [
+          { type: NodeTypeEnum.COMMON, id: 'M' },
+          { type: NodeTypeEnum.COMMON, id: 'N' },
+          {
+            type: ConditionTypeEnum.CHAIN,
+            id: 'w1',
+            children: [
+              {
+                type: ConditionTypeEnum.WHEN,
+                children: [
+                  { type: NodeTypeEnum.COMMON, id: 'Q' },
+                  {
+                    type: ConditionTypeEnum.THEN,
+                    children: [
+                      { type: NodeTypeEnum.COMMON, id: 'P' },
+                      { type: NodeTypeEnum.COMMON, id: 'R' },
+                    ]
+                  },
+                ],
+                properties: {
+                  id: 'w01'
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 } as Record<string, any>;
