@@ -12,6 +12,7 @@ import {
   ThenOperator,
   WhenOperator,
   WhileOperator,
+  ChainOperator,
 } from './el';
 import {ConditionTypeEnum, NodeTypeEnum} from '../constant';
 import ELNode from './node';
@@ -88,6 +89,7 @@ export default class ELBuilder {
       case ConditionTypeEnum.NOT:
         return NotOperator.create(parent);
       case ConditionTypeEnum.CHAIN:
+        return ChainOperator.create(parent);
       case ConditionTypeEnum.PRE:
       case ConditionTypeEnum.FINALLY:
       case ConditionTypeEnum.BREAK:
@@ -154,6 +156,7 @@ export function parse({parent, data}: ParseParameters): ELNode | undefined {
     case ConditionTypeEnum.NOT:
       return parseOperator({parent: new NotOperator(parent), data});
     case ConditionTypeEnum.CHAIN:
+      return parseOperator({parent: new ChainOperator(parent, data.id), data});
     case ConditionTypeEnum.PRE:
     case ConditionTypeEnum.FINALLY:
     case ConditionTypeEnum.BREAK:

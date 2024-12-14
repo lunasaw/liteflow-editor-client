@@ -67,6 +67,7 @@ const Mock: React.FC<IProps> = (props) => {
             options: [
               {label: '捕获异常(CATCH)', value: ConditionTypeEnum.CATCH},
               {label: '与或非(AND_OR_NOT)', value: ConditionTypeEnum.AND},
+              {label: '子流程(CHAIN)', value: ConditionTypeEnum.CHAIN},
             ],
           },
         ]}

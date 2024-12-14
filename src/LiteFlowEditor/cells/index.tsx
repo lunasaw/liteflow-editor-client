@@ -24,6 +24,8 @@ import {default as Catch} from './catch';
 import {default as And} from './and';
 import {default as Or} from './or';
 import {default as Not} from './not';
+// 子流程：Chain
+import {default as Chain} from './chain';
 // 其他辅助节点：虚节点
 import {default as Virtual} from './virtual';
 
@@ -48,6 +50,7 @@ import {NodeBadge, NodeToolBar, NodeView} from '../components';
   Or,
   Not,
   Virtual,
+  Chain,
 ].forEach((cell: LiteFlowNode) => {
   // 注册AntV X6节点
   const {type, label, icon, node = {}} = cell;
@@ -103,6 +106,7 @@ export {
   Or,
   Not,
   Virtual,
+  Chain,
 };
 
 export interface IGroupItem {
@@ -153,6 +157,7 @@ export const OTHER_GROUP: IGroupItem = {
     {...And, type: ConditionTypeEnum.AND, shape: And.type},
     {...Or, type: ConditionTypeEnum.OR, shape: Or.type},
     {...Not, type: ConditionTypeEnum.NOT, shape: Not.type},
+    {...Chain, type: ConditionTypeEnum.CHAIN, shape: Chain.type},
   ],
 };
 
@@ -178,7 +183,7 @@ export const getIconByType = (nodeType: ConditionTypeEnum | NodeTypeEnum) => {
     case NodeTypeEnum.ITERATOR:
       return Iterator.icon;
     case ConditionTypeEnum.CHAIN:
-      return Start.icon;
+      return Chain.icon;
     case ConditionTypeEnum.CATCH:
       return Catch.icon;
     case ConditionTypeEnum.AND:

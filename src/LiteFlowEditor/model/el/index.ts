@@ -43,3 +43,5 @@ export {default as OrOperator} from './or-operator';
 export {default as NotOperator} from './not-operator';
 // 6. 节点类
 export {default as NodeOperator} from './node-operator';
+// 7. 子流程
+export {default as ChainOperator} from './chain-operator';
