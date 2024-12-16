@@ -83,19 +83,38 @@
       border-left: solid 1px rgba(57, 76, 96, 0.15);
     }
   }
+  .liteflowBottomToolBar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    width: 50px;
+    height: 24px;
+    margin-left: -25px;
+    &.show {
+      display: flex !important;
+    }
+  }
   .liteflowCollapseNode {
     position: relative;
-    color: #f54a45;
+    color: rgba(0, 0, 0, 0.45);
+    &:hover {
+      color: rgba(0, 0, 0, 0.85);
+    }
   }
   .liteflowAddNodePrepend,
   .liteflowAddNodeAppend,
-  .liteflowTopToolBar {
+  .liteflowTopToolBar,
+  .liteflowBottomToolBar {
     display: none;
   }
   &:hover {
     .liteflowAddNodePrepend,
     .liteflowAddNodeAppend,
-    .liteflowTopToolBar {
+    .liteflowTopToolBar,
+    .liteflowBottomToolBar {
       display: flex;
     }
   }

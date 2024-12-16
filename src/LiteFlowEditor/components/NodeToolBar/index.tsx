@@ -121,7 +121,7 @@ const NodeToolBar: React.FC<{ node: Node }> = (props) => {
         </div>
       )}
       {toolbar.collapse && (
-        <div className={classNames(styles.liteflowTopToolBar)}>
+        <div className={classNames(styles.liteflowBottomToolBar, collapsed ? styles.show : null,)}>
           <div
             className={classNames(styles.liteflowToolBarBtn, styles.liteflowCollapseNode)}
             onClick={onCollapse}

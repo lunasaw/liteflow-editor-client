@@ -377,15 +377,21 @@ export default abstract class ELNode {
    * 是否折叠
    */
   public isCollapsed(): boolean {
-    return this.collapsed
+    if (this.parent?.condition === this) {
+      return this.parent.isCollapsed();
+    }
+    return this.collapsed;
   }
 
   /**
    * 折叠：展开、收起
    */
   public toggleCollapse(collapsed?: boolean): void {
-    const target = typeof collapsed !== 'boolean' ? !this.collapsed : collapsed
-    this.collapsed = !!target
+    if (this.parent?.condition === this) {
+      this.parent.toggleCollapse(collapsed);
+    }
+    const target = typeof collapsed !== 'boolean' ? !this.collapsed : collapsed;
+    this.collapsed = !!target;
   }
 }
 

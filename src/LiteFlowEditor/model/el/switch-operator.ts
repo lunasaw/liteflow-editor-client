@@ -88,48 +88,59 @@ export default class SwitchOperator extends ELNode {
       shape: NodeTypeEnum.SWITCH,
     });
     let start = condition.getStartNode();
-    start.setData({ model: condition }, { overwrite: true });
+    start.setData({
+      model: condition,
+      toolbar: {
+        prepend: true,
+        append: true,
+        delete: true,
+        replace: true,
+        collapse: true,
+      },
+    }, { overwrite: true });
     this.startNode = start;
     start = condition.getEndNode();
 
-    const end = Node.create({
-      shape: NODE_TYPE_INTERMEDIATE_END,
-      attrs: {
-        label: { text: '' },
-      },
-    });
-    end.setData({ model: new ELEndNode(this) }, { overwrite: true });
-    cells.push(this.addNode(end));
-    this.endNode = end;
+    if (!this.collapsed) {
+      const end = Node.create({
+        shape: NODE_TYPE_INTERMEDIATE_END,
+        attrs: {
+          label: { text: '' },
+        },
+      });
+      end.setData({ model: new ELEndNode(this) }, { overwrite: true });
+      cells.push(this.addNode(end));
+      this.endNode = end;
 
-    if (children.length) {
-      children.forEach((child) => {
-        child.toCells([], options);
-        const childStartNode = child.getStartNode();
+      if (children.length) {
+        children.forEach((child) => {
+          child.toCells([], options);
+          const childStartNode = child.getStartNode();
+          cells.push(
+            Edge.create({
+              shape: LITEFLOW_EDGE,
+              source: start.id,
+              target: childStartNode.id,
+            }),
+          );
+          const childEndNode = child.getEndNode();
+          cells.push(
+            Edge.create({
+              shape: LITEFLOW_EDGE,
+              source: childEndNode.id,
+              target: end.id,
+            }),
+          );
+        });
+      } else {
         cells.push(
           Edge.create({
             shape: LITEFLOW_EDGE,
             source: start.id,
-            target: childStartNode.id,
-          }),
-        );
-        const childEndNode = child.getEndNode();
-        cells.push(
-          Edge.create({
-            shape: LITEFLOW_EDGE,
-            source: childEndNode.id,
             target: end.id,
           }),
         );
-      });
-    } else {
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: start.id,
-          target: end.id,
-        }),
-      );
+      }
     }
 
     return this.getCells();

@@ -86,79 +86,82 @@ export default class NotOperator extends ELNode {
         append: false,
         delete: true,
         replace: true,
+        collapse: true,
       },
     }, { overwrite: true });
     cells.push(this.addNode(start));
     this.startNode = start;
 
-    const end = Node.create({
-      shape: NODE_TYPE_INTERMEDIATE_END,
-      attrs: {
-        label: { text: '' },
-      },
-    });
-    end.setData({
-      model: new ELEndNode(this),
-      toolbar: {
-        prepend: false,
-        append: true,
-        delete: true,
-        replace: true,
-      },
-    }, { overwrite: true });
-    cells.push(this.addNode(end));
-    this.endNode = end;
+    if (!this.collapsed) {
+      const end = Node.create({
+        shape: NODE_TYPE_INTERMEDIATE_END,
+        attrs: {
+          label: { text: '' },
+        },
+      });
+      end.setData({
+        model: new ELEndNode(this),
+        toolbar: {
+          prepend: false,
+          append: true,
+          delete: true,
+          replace: true,
+        },
+      }, { overwrite: true });
+      cells.push(this.addNode(end));
+      this.endNode = end;
 
-    const [notNode] = children;
-    [notNode].forEach((item, index) => {
-      const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
-      next.toCells([], {});
-      const nextStartNode = next.getStartNode();
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: start.id,
-          target: nextStartNode.id,
-          label: ' - ',
-          defaultLabel: {
-            attrs: {
-              fo: { x: -20, y: -20, },
-            },
-            position: {
-              options: {
-                keepGradient: false,
-                ensureLegibility: false,
+      const [notNode] = children;
+      [notNode].forEach((item, index) => {
+        const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
+        next.toCells([], {});
+        const nextStartNode = next.getStartNode();
+        cells.push(
+          Edge.create({
+            shape: LITEFLOW_EDGE,
+            source: start.id,
+            target: nextStartNode.id,
+            label: ' - ',
+            defaultLabel: {
+              attrs: {
+                fo: { x: -20, y: -20, },
+              },
+              position: {
+                options: {
+                  keepGradient: false,
+                  ensureLegibility: false,
+                }
               }
             }
-          }
-        }),
-      );
-      const nextEndNode = next.getEndNode();
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: nextEndNode.id,
-          target: end.id,
-          label: ' ',
-        }),
-      );
-
-      if (!item) {
-        nextStartNode.setData(
-          {
-            model: new ELVirtualNode(this, index, next),
-            toolbar: {
-              prepend: false,
-              append: false,
-              delete: false,
-              replace: true,
-            },
-          },
-          { overwrite: true },
+          }),
         );
-        cells.push(this.addNode(nextStartNode));
-      }
-    });
+        const nextEndNode = next.getEndNode();
+        cells.push(
+          Edge.create({
+            shape: LITEFLOW_EDGE,
+            source: nextEndNode.id,
+            target: end.id,
+            label: ' ',
+          }),
+        );
+
+        if (!item) {
+          nextStartNode.setData(
+            {
+              model: new ELVirtualNode(this, index, next),
+              toolbar: {
+                prepend: false,
+                append: false,
+                delete: false,
+                replace: true,
+              },
+            },
+            { overwrite: true },
+          );
+          cells.push(this.addNode(nextStartNode));
+        }
+      });
+    }
 
     return this.getCells();
   }

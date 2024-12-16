@@ -110,65 +110,92 @@ export default class CatchOperator extends ELNode {
         ]
       },
     });
-    start.setData({ model: new ELStartNode(this) }, { overwrite: true });
+    start.setData({
+      model: new ELStartNode(this),
+      toolbar: {
+        prepend: true,
+        append: true,
+        delete: true,
+        replace: true,
+        collapse: true,
+      },
+    }, { overwrite: true });
     cells.push(this.addNode(start));
     this.startNode = start;
 
-    const end = Node.create({
-      shape: NODE_TYPE_INTERMEDIATE_END,
-      attrs: {
-        label: { text: '' },
-      },
-    });
-    end.setData({ model: new ELEndNode(this) }, { overwrite: true });
-    cells.push(this.addNode(end));
-    this.endNode = end;
+    if (!this.collapsed) {
+      const end = Node.create({
+        shape: NODE_TYPE_INTERMEDIATE_END,
+        attrs: {
+          label: { text: '' },
+        },
+      });
+      end.setData({ model: new ELEndNode(this) }, { overwrite: true });
+      cells.push(this.addNode(end));
+      this.endNode = end;
 
-    [condition, ...children].forEach((item: ELNode | undefined, index: number) => {
-      const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
-      next.toCells([], options);
-      const nextStartNode = next.getStartNode();
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: start.id,
-          target: nextStartNode.id,
-          label: index === 1 ? '异常' : ' ',
-          defaultLabel: {
-            position: {
-              distance: 0.3,
+      [condition, ...children].forEach((item: ELNode | undefined, index: number) => {
+        const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
+        next.toCells([], options);
+        const nextStartNode = next.getStartNode();
+        cells.push(
+          Edge.create({
+            shape: LITEFLOW_EDGE,
+            source: start.id,
+            target: nextStartNode.id,
+            label: index === 1 ? '异常' : ' ',
+            defaultLabel: {
+              position: {
+                distance: 0.3,
+              },
             },
-          },
-        }),
-      );
-      const nextEndNode = next.getEndNode();
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: nextEndNode.id,
-          target: end.id,
-          label: ' ',
-        }),
-      );
-
-      if (!item) {
-        nextStartNode.setData(
-          {
-            model: new ELVirtualNode(this, index, next),
-            toolbar: {
-              prepend: false,
-              append: false,
-              delete: false,
-              replace: true,
-            },
-          },
-          { overwrite: true },
+          }),
         );
-        cells.push(this.addNode(nextStartNode));
-      }
-    });
+        const nextEndNode = next.getEndNode();
+        cells.push(
+          Edge.create({
+            shape: LITEFLOW_EDGE,
+            source: nextEndNode.id,
+            target: end.id,
+            label: ' ',
+          }),
+        );
+
+        if (!item) {
+          nextStartNode.setData(
+            {
+              model: new ELVirtualNode(this, index, next),
+              toolbar: {
+                prepend: false,
+                append: false,
+                delete: false,
+                replace: true,
+              },
+            },
+            { overwrite: true },
+          );
+          cells.push(this.addNode(nextStartNode));
+        }
+      });
+    }
 
     return this.getCells();
+  }
+
+  /**
+   * 获取当前X6 Cell内容
+   */
+  public getCells(): Cell[] {
+    let cells: Cell[] = [...this.cells];
+    if (this.condition && !this.collapsed) {
+      cells = cells.concat(this.condition.getCells());
+    }
+    if (this.children && this.children.length && !this.collapsed) {
+      this.children.forEach((child) => {
+        cells = cells.concat(child.getCells());
+      });
+    }
+    return cells;
   }
 
   /**

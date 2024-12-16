@@ -88,6 +88,7 @@ export default class IfOperator extends ELNode {
           append: false,
           delete: true,
           replace: true,
+          collapse: true,
         },
       },
       { overwrite: true },
@@ -95,66 +96,69 @@ export default class IfOperator extends ELNode {
     this.startNode = start;
     start = condition.getEndNode();
 
-    const end = Node.create({
-      shape: NODE_TYPE_INTERMEDIATE_END,
-      attrs: {
-        label: { text: '' },
-      },
-    });
-    end.setData(
-      {
-        model: new ELEndNode(this),
-        toolbar: {
-          prepend: false,
-          append: true,
-          delete: true,
-          replace: true,
+    if (!this.collapsed) {
+      const end = Node.create({
+        shape: NODE_TYPE_INTERMEDIATE_END,
+        attrs: {
+          label: { text: '' },
         },
-      },
-      { overwrite: true },
-    );
-    cells.push(this.addNode(end));
-    this.endNode = end;
-
-    const [trueNode, falseNode] = children;
-    [trueNode, falseNode].forEach((item, index) => {
-      const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
-      next.toCells([], options);
-      const nextStartNode = next.getStartNode();
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: start.id,
-          target: nextStartNode.id,
-          label: index ? 'false' : 'true',
-        }),
-      );
-      const nextEndNode = next.getEndNode();
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: nextEndNode.id,
-          target: end.id,
-          label: ' ',
-        }),
-      );
-
-      if (!item) {
-        nextStartNode.setData(
-          {
-            model: new ELVirtualNode(this, index, next),
-            toolbar: {
-              prepend: false,
-              append: false,
-              delete: false,
-              replace: true,
-            },
+      });
+      end.setData(
+        {
+          model: new ELEndNode(this),
+          toolbar: {
+            prepend: false,
+            append: true,
+            delete: true,
+            replace: true,
           },
-          { overwrite: true },
+        },
+        { overwrite: true },
+      );
+      cells.push(this.addNode(end));
+      this.endNode = end;
+
+      const [trueNode, falseNode] = children;
+      [trueNode, falseNode].forEach((item, index) => {
+        const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
+        next.toCells([], options);
+        const nextStartNode = next.getStartNode();
+        cells.push(
+          Edge.create({
+            shape: LITEFLOW_EDGE,
+            source: start.id,
+            target: nextStartNode.id,
+            label: index ? 'false' : 'true',
+          }),
         );
-        cells.push(this.addNode(nextStartNode));
-      }
-    });
+        const nextEndNode = next.getEndNode();
+        cells.push(
+          Edge.create({
+            shape: LITEFLOW_EDGE,
+            source: nextEndNode.id,
+            target: end.id,
+            label: ' ',
+          }),
+        );
+
+        if (!item) {
+          nextStartNode.setData(
+            {
+              model: new ELVirtualNode(this, index, next),
+              toolbar: {
+                prepend: false,
+                append: false,
+                delete: false,
+                replace: true,
+              },
+            },
+            { overwrite: true },
+          );
+          cells.push(this.addNode(nextStartNode));
+        }
+      });
+    }
+
     return this.getCells();
   }
 

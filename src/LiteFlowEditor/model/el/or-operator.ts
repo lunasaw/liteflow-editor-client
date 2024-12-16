@@ -80,57 +80,68 @@ export default class OrOperator extends ELNode {
       },
       ...options,
     });
-    start.setData({ model: new ELStartNode(this) }, { overwrite: true });
+    start.setData({
+      model: new ELStartNode(this),
+      toolbar: {
+        prepend: true,
+        append: true,
+        delete: true,
+        replace: true,
+        collapse: true,
+      },
+    }, { overwrite: true });
     cells.push(this.addNode(start));
     this.startNode = start;
 
-    const end = Node.create({
-      shape: NODE_TYPE_INTERMEDIATE_END,
-      attrs: {
-        label: { text: '' },
-      },
-    });
-    end.setData({ model: new ELEndNode(this) }, { overwrite: true });
-    cells.push(this.addNode(end));
-    this.endNode = end;
+    if (!this.collapsed) {
+      const end = Node.create({
+        shape: NODE_TYPE_INTERMEDIATE_END,
+        attrs: {
+          label: { text: '' },
+        },
+      });
+      end.setData({ model: new ELEndNode(this) }, { overwrite: true });
+      cells.push(this.addNode(end));
+      this.endNode = end;
 
-    if (children.length) {
-      children.forEach((child) => {
-        child.toCells([], {});
-        const nextStartNode = child.getStartNode();
+      if (children.length) {
+        children.forEach((child) => {
+          child.toCells([], {});
+          const nextStartNode = child.getStartNode();
+          cells.push(
+            Edge.create({
+              shape: LITEFLOW_EDGE,
+              source: start.id,
+              target: nextStartNode.id,
+              label: ' * ',
+              defaultLabel: {
+                position: {
+                  options: {
+                    keepGradient: false,
+                    ensureLegibility: false,
+                  }
+                }
+              }
+            }),
+          );
+          const nextEndNode = child.getEndNode();
+          cells.push(
+            Edge.create({
+              shape: LITEFLOW_EDGE,
+              source: nextEndNode.id,
+              target: end.id,
+            }),
+          );
+        });
+      } else {
         cells.push(
           Edge.create({
             shape: LITEFLOW_EDGE,
             source: start.id,
-            target: nextStartNode.id,
-            label: ' * ',
-            defaultLabel: {
-              position: {
-                options: {
-                  keepGradient: false,
-                  ensureLegibility: false,
-                }
-              }
-            }
-          }),
-        );
-        const nextEndNode = child.getEndNode();
-        cells.push(
-          Edge.create({
-            shape: LITEFLOW_EDGE,
-            source: nextEndNode.id,
             target: end.id,
           }),
         );
-      });
-    } else {
-      cells.push(
-        Edge.create({
-          shape: LITEFLOW_EDGE,
-          source: start.id,
-          target: end.id,
-        }),
-      );
+      }
     }
 
     return this.getCells();
