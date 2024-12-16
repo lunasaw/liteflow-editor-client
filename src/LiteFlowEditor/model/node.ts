@@ -294,7 +294,7 @@ export default abstract class ELNode {
    * 获取当前节点的结束节点
    */
   public getEndNode(): Node {
-    return this.endNode as Node;
+    return this.collapsed ? this.startNode as Node : this.endNode as Node;
   }
 
   /**
