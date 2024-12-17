@@ -1,32 +1,48 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Modal, Tooltip } from 'antd';
+import { Button, Form, Input, Modal, Select, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
+import request from 'umi-request';
 import './index.less'
 
 type Chain = {
   chainId: string;
-  chainName: string;
+  elJson: any;
 }
 
 interface IProps {
   value?: Chain;
   onChange: (newChain: Chain) => void;
   disabled?: boolean;
+  chains: Array<{
+    chainId: string;
+    elJson: any;
+  }>;
 }
 
-const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, disabled }) => {
+const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disabled }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+
   const showModal = () => {
     setIsModalOpen(true);
+    form.resetFields();
   };
-
-  const [form] = Form.useForm();
 
   const handleOk = async () => {
     try {
-      const chain = await form.validateFields();
-      onChange(chain);
+      const { chainId, elTemplateId } = await form.validateFields();
+      const elJson = await request(`/api/getChainById?chainId=${elTemplateId}`, { method: 'GET' })
+        .then((data) => {
+          if (data?.elJson) {
+            return data.elJson;
+          }
+          return {};
+        });
+      onChange({
+        chainId,
+        elJson: elJson
+      });
       setIsModalOpen(false);
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
@@ -60,11 +76,18 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, disabled }) => 
             wrapperCol={{ span: 14 }}
             initialValues={value}
           >
-            <Form.Item name="chainId" label="chainId">
-              <Input allowClear />
+            <Form.Item name="chainId" label="chainId" required>
+              <Input placeholder="请输入Chain ID" allowClear />
             </Form.Item>
-            <Form.Item name="chainName" label="chainName">
-              <Input allowClear />
+            <Form.Item name="elTemplateId" label="chainTemplate" required>
+              <Select
+                placeholder="请选择Chain模板"
+                style={{width: '100%'}}
+                options={chains.map(({chainId}: Chain) => ({
+                  label: chainId,
+                  value: chainId,
+                }))}
+              />
             </Form.Item>
           </Form>
         </div>

@@ -8,7 +8,6 @@ import './index.less';
 
 type Chain = {
   chainId: string;
-  chainName: string;
   elJson: any;
 }
 
@@ -77,7 +76,7 @@ const ChainManager: React.FC = () => {
   }
 
   const handleAddChain = (newChain) => {
-    currentEditor.fromJSON({});
+    currentEditor.fromJSON(newChain.elJson);
     request(`/api/createChain`, {
       method: 'POST',
       data: {...newChain}
@@ -99,8 +98,8 @@ const ChainManager: React.FC = () => {
         value={currentChain?.chainId}
         placeholder="请选择接口数据"
         style={{width: 200}}
-        options={chains.map(({chainId, chainName}: Chain) => ({
-          label: chainName,
+        options={chains.map(({chainId}: Chain) => ({
+          label: chainId,
           value: chainId,
         }))}
         onChange={handleOnChange}
@@ -115,7 +114,7 @@ const ChainManager: React.FC = () => {
           <DeleteOutlined /> 删除
         </Button>
       </Tooltip>
-      <AddChain onChange={handleAddChain} />
+      <AddChain onChange={handleAddChain} chains={chains} />
     </div>
   );
 }
