@@ -33,16 +33,8 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
     try {
       const { chainId, elTemplateId } = await form.validateFields();
       const elJson = await request(`/api/getChainById?chainId=${elTemplateId}`, { method: 'GET' })
-        .then((data) => {
-          if (data?.elJson) {
-            return data.elJson;
-          }
-          return {};
-        });
-      onChange({
-        chainId,
-        elJson: elJson
-      });
+        .then((data) => data?.elJson ? data.elJson : {});
+      onChange({ chainId, elJson });
       setIsModalOpen(false);
     } catch (errorInfo) {
       console.log('Failed:', errorInfo);
