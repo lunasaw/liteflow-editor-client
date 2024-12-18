@@ -76,6 +76,11 @@ const ChainManager: React.FC = () => {
   }
 
   const handleAddChain = (newChain) => {
+    if (!newChain) {
+       // 创建空白画布
+      currentEditor.fromJSON({});
+      return
+    }
     currentEditor.fromJSON(newChain.elJson);
     request(`/api/createChain`, {
       method: 'POST',

@@ -12,7 +12,7 @@ type Chain = {
 
 interface IProps {
   value?: Chain;
-  onChange: (newChain: Chain) => void;
+  onChange: (newChain?: Chain) => void;
   disabled?: boolean;
   chains: Array<{
     chainId: string;
@@ -45,6 +45,11 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
     setIsModalOpen(false);
   };
 
+  const handleEmptyCanvas = () => {
+    setIsModalOpen(false);
+    onChange(undefined);
+  }
+
   return (
     <React.Fragment>
       <Tooltip title='新增' placement='bottom'>
@@ -57,8 +62,11 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
         className={classNames('chain-manager-settings-modal')}
         width={900}
         open={isModalOpen}
-        onOk={handleOk}
         onCancel={handleCancel}
+        footer={[
+          <Button key='emptyCanvas' onClick={handleEmptyCanvas}>创建空白画布</Button>,
+          <Button type='primary' key='save' onClick={handleOk}>保存</Button>
+        ]}
       >
         <div>
           <Form
@@ -68,10 +76,10 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
             wrapperCol={{ span: 14 }}
             initialValues={value}
           >
-            <Form.Item name="chainId" label="chainId" required>
+            <Form.Item name="chainId" label="chainId" rules={[{ required: true, message: '请输入Chain ID' }]}>
               <Input placeholder="请输入Chain ID" allowClear />
             </Form.Item>
-            <Form.Item name="elTemplateId" label="chainTemplate" required>
+            <Form.Item name="elTemplateId" label="chainTemplate" rules={[{ required: true, message: '请选择Chain模板' }]}>
               <Select
                 placeholder="请选择Chain模板"
                 style={{width: '100%'}}
