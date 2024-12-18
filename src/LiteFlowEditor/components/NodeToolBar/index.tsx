@@ -3,7 +3,7 @@ import { Node } from '@antv/x6';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 import { Modal, Tooltip } from 'antd';
-import { DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { INodeData } from '../../model/node';
 import styles from './index.module.less';
 import { history } from '../../hooks/useHistory';
@@ -121,13 +121,13 @@ const NodeToolBar: React.FC<{ node: Node }> = (props) => {
         </div>
       )}
       {toolbar.collapse && (
-        <div className={classNames(styles.liteflowBottomToolBar, collapsed ? styles.show : null,)}>
+        <div className={classNames(styles.liteflowBottomToolBar, styles.show,)}>
           <div
             className={classNames(styles.liteflowToolBarBtn, styles.liteflowCollapseNode)}
             onClick={onCollapse}
           >
             <Tooltip title={collapsed ? "展开节点" : "折叠节点"}>
-              {collapsed ? <PlusCircleOutlined /> : <MinusCircleOutlined />}
+              {collapsed ? <PlusSquareOutlined /> : <MinusSquareOutlined />}
             </Tooltip>
           </div>
         </div>
