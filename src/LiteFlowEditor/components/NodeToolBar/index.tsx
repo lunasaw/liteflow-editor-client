@@ -68,7 +68,7 @@ const NodeToolBar: React.FC<{ node: Node }> = (props) => {
     node.model?.graph?.trigger('model:change');
   }, 100);
 
-  const collapsed = model.isCollapsed()
+  const collapsed = model?.isCollapsed()
   return (
     <div className={classNames(styles.liteflowNodeToolBar)}>
       {toolbar.prepend && (
