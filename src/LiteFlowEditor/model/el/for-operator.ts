@@ -78,13 +78,10 @@ export default class ForOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { condition, children } = this;
-    condition.toCells([], {
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { condition, children, cells } = this;
+    condition.toCells({
       shape: NodeTypeEnum.FOR,
     });
     let start = condition.getStartNode();
@@ -114,7 +111,7 @@ export default class ForOperator extends ELNode {
 
       if (children.length) {
         children.forEach((child) => {
-          child.toCells([], options);
+          child.toCells(options);
           const nextStartNode = child.getStartNode();
           cells.push(
             Edge.create({

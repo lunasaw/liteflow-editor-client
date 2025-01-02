@@ -72,12 +72,9 @@ export default class WhenOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { children } = this;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { children, cells } = this;
     const start = Node.create({
       shape: ConditionTypeEnum.WHEN,
       attrs: {
@@ -110,7 +107,7 @@ export default class WhenOperator extends ELNode {
 
       if (children.length) {
         children.forEach((child) => {
-          child.toCells([], options);
+          child.toCells(options);
           const nextStartNode = child.getStartNode();
           cells.push(
             Edge.create({

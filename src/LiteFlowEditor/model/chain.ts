@@ -80,7 +80,7 @@ export default class Chain extends ELNode {
     // 2. 其次：解析已有的节点
     let last: Node = start;
     this.children.forEach((x) => {
-      x.toCells([], {});
+      x.toCells();
       cells.push(
         Edge.create({
           shape: LITEFLOW_EDGE,

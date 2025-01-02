@@ -70,13 +70,10 @@ export default class IfOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { condition, children = [] } = this;
-    condition.toCells([], {
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { condition, children = [], cells } = this;
+    condition.toCells({
       shape: NodeTypeEnum.IF,
     });
     let start = condition.getStartNode();
@@ -121,7 +118,7 @@ export default class IfOperator extends ELNode {
       const [trueNode, falseNode] = children;
       [trueNode, falseNode].forEach((item, index) => {
         const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
-        next.toCells([], options);
+        next.toCells(options);
         const nextStartNode = next.getStartNode();
         cells.push(
           Edge.create({

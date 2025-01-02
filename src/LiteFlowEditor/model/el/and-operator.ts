@@ -67,12 +67,9 @@ export default class AndOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { children } = this;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { children, cells } = this;
     const start = Node.create({
       shape: ConditionTypeEnum.AND,
       attrs: {
@@ -106,7 +103,7 @@ export default class AndOperator extends ELNode {
 
       if (children.length) {
         children.forEach((child) => {
-          child.toCells([], {});
+          child.toCells();
           const nextStartNode = child.getStartNode();
           cells.push(
             Edge.create({

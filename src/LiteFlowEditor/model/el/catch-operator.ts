@@ -74,12 +74,9 @@ export default class CatchOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { condition, children } = this;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { condition, children, cells } = this;
     const start = Node.create({
       shape: ConditionTypeEnum.CATCH,
       attrs: {
@@ -136,7 +133,7 @@ export default class CatchOperator extends ELNode {
 
       [condition, ...children].forEach((item: ELNode | undefined, index: number) => {
         const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
-        next.toCells([], options);
+        next.toCells(options);
         const nextStartNode = next.getStartNode();
         cells.push(
           Edge.create({

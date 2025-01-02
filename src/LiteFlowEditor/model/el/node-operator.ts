@@ -68,22 +68,22 @@ export default class NodeOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { id, type } = this;
-    const node = Node.create({
-      shape: getNodeShapeByType(type),
-      attrs: {
-        label: { text: id },
-      },
-      ...(options || {}),
-    });
-    node.setData({ model: this }, { overwrite: true });
-    cells.push(this.addNode(node));
-    this.node = node;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    if (!this.node) {
+      this.resetCells();
+      const { id, type, cells } = this;
+      const node = Node.create({
+        shape: getNodeShapeByType(type),
+        attrs: {
+          label: { text: id },
+        },
+        ...(options || {}),
+      });
+      node.setData({ model: this }, { overwrite: true });
+      cells.push(this.addNode(node));
+      this.node = node;
+    }
+
     return this.getCells();
   }
 

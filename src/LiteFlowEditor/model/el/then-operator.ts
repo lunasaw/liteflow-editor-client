@@ -73,15 +73,12 @@ export default class ThenOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { children } = this;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { children, cells } = this;
     let last: Node;
     children.forEach((child) => {
-      child.toCells([], options);
+      child.toCells(options);
       const next = child.getStartNode();
       if (last) {
         cells.push(

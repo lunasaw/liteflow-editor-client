@@ -69,12 +69,9 @@ export default class ChainOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { id, children } = this;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { id, children, cells } = this;
     const start = Node.create({
       shape: ConditionTypeEnum.CHAIN,
       attrs: {
@@ -106,7 +103,7 @@ export default class ChainOperator extends ELNode {
       this.endNode = end;
       if (children.length) {
         children.forEach((child) => {
-          child.toCells([], options);
+          child.toCells(options);
           const nextStartNode = child.getStartNode();
           cells.push(
             Edge.create({

@@ -66,12 +66,9 @@ export default class NotOperator extends ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public toCells(
-    cells: Cell[] = [],
-    options: Record<string, any> = {},
-  ): Cell[] {
-    this.resetCells(cells);
-    const { children } = this;
+  public toCells(options: Record<string, any> = {}): Cell[] {
+    this.resetCells();
+    const { children, cells } = this;
     const start = Node.create({
       shape: ConditionTypeEnum.NOT,
       attrs: {
@@ -114,7 +111,7 @@ export default class NotOperator extends ELNode {
       const [notNode] = children;
       [notNode].forEach((item, index) => {
         const next = item || NodeOperator.create(this, NodeTypeEnum.VIRTUAL, ' ');
-        next.toCells([], {});
+        next.toCells();
         const nextStartNode = next.getStartNode();
         cells.push(
           Edge.create({

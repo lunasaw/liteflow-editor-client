@@ -225,10 +225,7 @@ export default abstract class ELNode {
   /**
    * 转换为X6的图数据格式
    */
-  public abstract toCells(
-    cells?: Cell[],
-    options?: Record<string, any>,
-  ): Cell[];
+  public abstract toCells(options?: Record<string, any>): Cell[];
 
   /**
    * 获取需要选中的X6 Cell
