@@ -157,6 +157,7 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
         forceLayout(flowGraph);
         flowGraph.stopBatch('update');
         flowGraph.scroller.enableAutoResize();
+        flowGraph.trigger('model:changed');
       }
     };
     if (flowGraph) {
