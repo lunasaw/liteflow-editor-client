@@ -39,13 +39,33 @@ const Outline: React.FC<IProps> = (props) => {
 
   function transformer(currentModel: ELNode, keys: string[]): DataNode {
     const handleClick = () => {
+
+      // 始终递归展开节点，再选中
+      function findParentCollapsed(currentModel: ELNode) {
+        if (currentModel.parent) {
+          const parent = currentModel.parent;
+          parent.toggleCollapse(false);
+          findParentCollapsed(parent);
+        }
+      }
+      findParentCollapsed(currentModel);
+
+      // 触发model:change事件来更新视图
+      flowGraph.trigger('model:change');
+      // 找到了选中的节点
+      let node
+      const nodes = currentModel?.getNodes();
+      if (nodes && nodes.length > 0) {
+        node = nodes[0];
+        if (node) {
+          flowGraph.positionCell(node, 'left', {
+            padding: { left: 240 },
+          });
+        }
+      }
       flowGraph.cleanSelection();
-      flowGraph.select(currentModel.getNodes());
-      // flowGraph.centerCell(currentModel.getNodes()[0]);
-      flowGraph.positionCell(currentModel.getNodes()[0], 'left', {
-        padding: { left: 240 },
-      });
       flowGraph.trigger('model:select', currentModel);
+      flowGraph.select(nodes);
     };
     const key = `${currentModel.type}-${StringExt.uuid()}`;
     keys.push(key);
