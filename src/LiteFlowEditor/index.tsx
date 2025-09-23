@@ -18,7 +18,7 @@ import ToolBar from './panels/toolBar';
 import SettingBar from './panels/settingBar';
 import Breadcrumb from './panels/breadcrumb';
 import styles from './index.module.less';
-import '@antv/x6/dist/x6.css';
+import '@antv/x6/dist/index.css';
 import { forceLayout } from './common/layout';
 import { useModel } from './hooks';
 import { history } from './hooks/useHistory';
@@ -151,12 +151,12 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const model = useModel();
         const modelJSON = model.toCells() as Cell[];
-        flowGraph.scroller.disableAutoResize();
+        flowGraph.lockScroller();
         flowGraph.startBatch('update');
         flowGraph.resetCells(modelJSON);
         forceLayout(flowGraph);
         flowGraph.stopBatch('update');
-        flowGraph.scroller.enableAutoResize();
+        flowGraph.unlockScroller();
         flowGraph.trigger('model:changed');
       }
     };

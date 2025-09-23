@@ -1,7 +1,7 @@
 import React from 'react';
-import {Graph, Node} from '@antv/x6';
-import '@antv/x6-react-shape';
-import {ConditionTypeEnum, NODE_HEIGHT, NODE_TYPE_INTERMEDIATE_END, NODE_WIDTH, NodeTypeEnum,} from '../constant';
+import { Node } from '@antv/x6';
+import { register } from '@antv/x6-react-shape';
+import { ConditionTypeEnum, NODE_HEIGHT, NODE_TYPE_INTERMEDIATE_END, NODE_WIDTH, NodeTypeEnum } from '../constant';
 /** AntV X6自定义节点 */
 // 开始 & 结束
 import {default as Start} from './start';
@@ -54,8 +54,8 @@ import {NodeBadge, NodeToolBar, NodeView} from '../components';
 ].forEach((cell: LiteFlowNode) => {
   // 注册AntV X6节点
   const {type, label, icon, node = {}} = cell;
-  Graph.registerNode(type, {
-    // primer: 'circle',
+  register({
+    shape: type,
     inherit: 'react-shape',
     component(node: Node) {
       return (

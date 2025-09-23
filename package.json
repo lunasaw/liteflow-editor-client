@@ -1,6 +1,6 @@
 {
   "name": "liteflow-editor-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "LiteFlow EL-Expression Visual Editor",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -53,15 +53,15 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/lodash": "^4.17.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.5.20",
     "typescript": "^4.1.2",
@@ -82,12 +82,22 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@antv/layout": "^0.3.25",
-    "@antv/x6": "^1.7.12",
-    "@antv/x6-react-components": "^1.1.15",
-    "@antv/x6-react-shape": "^1.6.0",
+    "@antv/x6": "^2.18.1",
+    "@antv/x6-plugin-clipboard": "^2.1.6",
+    "@antv/x6-plugin-dnd": "^2.1.1",
+    "@antv/x6-plugin-export": "^2.1.6",
+    "@antv/x6-plugin-history": "^2.2.4",
+    "@antv/x6-plugin-keyboard": "^2.2.3",
+    "@antv/x6-plugin-minimap": "^2.0.7",
+    "@antv/x6-plugin-scroller": "^2.0.10",
+    "@antv/x6-plugin-selection": "^2.2.2",
+    "@antv/x6-plugin-snapline": "^2.1.7",
+    "@antv/x6-plugin-transform": "^2.1.8",
+    "@antv/x6-react-components": "^2.0.9",
+    "@antv/x6-react-shape": "^2.2.3",
     "antd": "^4.5.3",
-    "react": "17.x",
-    "react-dom": "17.x",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-json-view": "^1.19.1"
   }
 }

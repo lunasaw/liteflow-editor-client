@@ -9,7 +9,7 @@ import styles from './index.module.less';
 import { history } from '../../hooks/useHistory';
 
 const NodeToolBar: React.FC<{ node: Node }> = (props) => {
-  const { node } = props;
+  const { node } = props.node;
   const {
     model,
     toolbar = { append: true, delete: true, prepend: true, replace: true, collapse: false, },

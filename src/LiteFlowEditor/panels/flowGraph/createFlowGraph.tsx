@@ -1,10 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Button } from 'antd';
 import { Cell, Graph, NodeView } from '@antv/x6';
 import { debounce } from 'lodash';
+import { Clipboard } from '@antv/x6-plugin-clipboard'
+import { Export } from '@antv/x6-plugin-export'
+import { History } from '@antv/x6-plugin-history'
+import { Keyboard } from '@antv/x6-plugin-keyboard'
+import { MiniMap } from '@antv/x6-plugin-minimap'
+import { Scroller } from '@antv/x6-plugin-scroller'
+import { Selection } from '@antv/x6-plugin-selection'
+import { Snapline } from '@antv/x6-plugin-snapline'
+import { Transform } from '@antv/x6-plugin-transform'
 import { MIN_ZOOM, MAX_ZOOM } from '../../constant';
 // import MiniMapSimpleNode from './miniMapSimpleNode';
+
 import {
   LITEFLOW_ANCHOR,
   LITEFLOW_ROUTER,
@@ -17,10 +27,10 @@ const createFlowChart = (
   miniMapContainer: HTMLDivElement,
 ): Graph => {
   const flowGraph = new Graph({
+    virtual: false,
+    async: true,
     autoResize: true,
     container,
-    rotating: false,
-    resizing: false,
     onEdgeLabelRendered: (args) => {
       const { edge, selectors, label } = args;
       const content = selectors.foContent as HTMLElement;
@@ -40,15 +50,15 @@ const createFlowChart = (
               edge,
             });
           };
-          ReactDOM.render(
+          const root = createRoot(content);
+          root.render(
             <Button
               size="small"
               onClick={handleOnClick}
               className="liteflow-edge-add-button"
             >
               +
-            </Button>,
-            content,
+            </Button>
           );
         } else {
           content.appendChild(
@@ -56,11 +66,6 @@ const createFlowChart = (
           );
         }
       }
-    },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/clipboard
-    clipboard: {
-      enabled: true,
-      useLocalStorage: true,
     },
     // https://x6.antv.vision/zh/docs/tutorial/intermediate/connector
     connecting: {
@@ -107,8 +112,59 @@ const createFlowChart = (
     grid: {
       visible: true,
     },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/selection
-    selecting: {
+    mousewheel: {
+      enabled: true,
+      minScale: MIN_ZOOM,
+      maxScale: MAX_ZOOM,
+      modifiers: ['ctrl', 'meta'],
+    },
+    interacting: {
+      nodeMovable: true,
+      edgeLabelMovable: false,
+    },
+  });
+  // 图形变换：https://x6.antv.antgroup.com/tutorial/plugins/transform
+  flowGraph.use(
+    new Transform({
+      rotating: false,
+      resizing: false,
+    }),
+  );
+  // 对齐线： https://x6.antv.antgroup.com/tutorial/plugins/snapline
+  flowGraph.use(
+    new Snapline({
+      enabled: true,
+      clean: 100,
+    }),
+  );
+  // 复制粘贴：https://x6.antv.antgroup.com/tutorial/plugins/clipboard
+  flowGraph.use(
+    new Clipboard({
+      enabled: true,
+      useLocalStorage: true,
+    }),
+  );
+  // 快捷键：https://x6.antv.antgroup.com/tutorial/plugins/keyboard
+  flowGraph.use(
+    new Keyboard({
+      enabled: true,
+      global: false,
+    }),
+  );
+  // 撤销重做：https://x6.antv.antgroup.com/tutorial/plugins/history
+  flowGraph.use(
+    new History({
+      enabled: true,
+      beforeAddCommand(event, args: any) {
+        if (args.options) {
+          return args.options.ignore !== true;
+        }
+      },
+    }),
+  );
+  // 框选：https://x6.antv.antgroup.com/tutorial/plugins/selection
+  flowGraph.use(
+    new Selection({
       enabled: true,
       rubberband: false, // 启用框选
       movable: true,
@@ -117,28 +173,20 @@ const createFlowChart = (
       showNodeSelectionBox: true,
       selectNodeOnMoved: true,
       pointerEvents: 'none',
-    },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/snapline
-    snapline: {
+    }),
+  );
+  // 滚动画布：https://x6.antv.antgroup.com/tutorial/plugins/scroller
+  flowGraph.use(
+    new Scroller({
       enabled: true,
-      clean: 100,
-    },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/keyboard
-    keyboard: {
-      enabled: true,
-      global: false,
-    },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/history
-    history: {
-      enabled: true,
-      beforeAddCommand(event, args: any) {
-        if (args.options) {
-          return args.options.ignore !== true;
-        }
-      },
-    },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/minimap
-    minimap: {
+      pageVisible: false,
+      pageBreak: false,
+      pannable: true,
+    }),
+  );
+  // 小地图：https://x6.antv.antgroup.com/tutorial/plugins/minimap
+  flowGraph.use(
+    new MiniMap({
       width: 150,
       height: 150,
       minScale: MIN_ZOOM,
@@ -160,40 +208,12 @@ const createFlowChart = (
           }
         },
       },
-    },
-    // https://x6.antv.vision/zh/docs/tutorial/basic/scroller
-    scroller: {
-      enabled: true,
-      pageVisible: false,
-      pageBreak: false,
-      pannable: true,
-    },
-    mousewheel: {
-      enabled: true,
-      minScale: MIN_ZOOM,
-      maxScale: MAX_ZOOM,
-      modifiers: ['ctrl', 'meta'],
-    },
-    // embedding: {
-    //   enabled: true,
-    //   findParent({ node }) {
-    //     const bbox = node.getBBox();
-    //     return this.getNodes().filter((grahpNode) => {
-    //       const nodeData = grahpNode.getData();
-    //       if (nodeData && nodeData.parent) {
-    //         const targetBBox = grahpNode.getBBox();
-    //         return bbox.isIntersectWithRect(targetBBox);
-    //       }
-    //       return false;
-    //     });
-    //   },
-    //   frontOnly: false,
-    // },
-    interacting: {
-      nodeMovable: true,
-      edgeLabelMovable: false,
-    },
-  });
+    }),
+  );
+  // 导出：https://x6.antv.antgroup.com/tutorial/plugins/export
+  flowGraph.use(
+    new Export()
+  );
   registerEvents(flowGraph);
   registerShortcuts(flowGraph);
   return flowGraph;

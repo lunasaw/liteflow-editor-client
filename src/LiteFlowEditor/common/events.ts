@@ -1,4 +1,4 @@
-import { Dom, Graph, Rectangle } from '@antv/x6';
+import { Util, Graph, Rectangle } from '@antv/x6';
 import { getSelectedEdges } from '../utils/flowChartUtils';
 
 export function findViewsFromPoint(flowGraph: Graph, x: number, y: number) {
@@ -6,8 +6,8 @@ export function findViewsFromPoint(flowGraph: Graph, x: number, y: number) {
     .getCells()
     .map((cell) => flowGraph.findViewByCell(cell))
     .filter((view) => {
-      if (view != null) {
-        let bBox = Dom.getBBox(view.container as any, {
+      if (view !== null) {
+        let bBox = Util.getBBox(view.container as any, {
           target: flowGraph.view.stage,
         });
         if (bBox.height < 16) {

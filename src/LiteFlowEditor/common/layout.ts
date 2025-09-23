@@ -63,8 +63,6 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
     }),
   });
 
-  flowGraph.freeze();
-
   newNodes?.forEach((node: any) => {
     const cell: Node | undefined = flowGraph.getCellById(node.id) as
       | Node
@@ -77,8 +75,6 @@ function antvDagreLayout(flowGraph: Graph, cfg: any = {}): void {
   fineTuneLayer(flowGraph);
 
   // fineTuneCatchNodes(flowGraph);
-
-  flowGraph.unfreeze();
 }
 
 /**
