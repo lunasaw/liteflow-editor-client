@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import styles from './index.module.less';
 
-const NodeView: React.FC<{ icon: string; node: Node }> = (props) => {
+const NodeView: React.FC<{ icon: string; node: Node; children: React.ReactNode }> = (props) => {
   const { icon, children } = props;
   return (
     <div className={classNames(styles.liteflowShapeWrapper)}>

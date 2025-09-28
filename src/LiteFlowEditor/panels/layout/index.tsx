@@ -16,6 +16,7 @@ interface IProps {
   ToolBar: React.FC<ISubComponentProps>;
   SettingBar: React.FC<ISubComponentProps>;
   widgets?: React.FC[];
+  children: React.ReactNode;
 }
 
 const Layout: React.FC<IProps> = (props) => {

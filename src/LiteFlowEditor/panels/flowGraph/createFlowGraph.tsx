@@ -30,7 +30,7 @@ const createFlowChart = (
     virtual: false,
     async: true,
     autoResize: true,
-    container,
+    container, // @ts-ignore
     onEdgeLabelRendered: (args) => {
       const { edge, selectors, label } = args;
       const content = selectors.foContent as HTMLElement;
@@ -74,7 +74,6 @@ const createFlowChart = (
       allowLoop: false,
       allowNode: false,
       allowEdge: false,
-      dangling: true,
       highlight: true,
       anchor: LITEFLOW_ANCHOR, // LITEFLOW_ANCHOR, // 'center',
       connectionPoint: 'bbox',
@@ -191,17 +190,10 @@ const createFlowChart = (
       height: 150,
       minScale: MIN_ZOOM,
       maxScale: MAX_ZOOM,
-      enabled: true,
       scalable: false,
       container: miniMapContainer,
       graphOptions: {
         async: true,
-        getCellView(cell: Cell) {
-          if (cell.isNode()) {
-            return NodeView.registry.get('react-shape-view');
-            // return MiniMapSimpleNode;
-          }
-        },
         createCellView(cell: Cell) {
           if (cell.isEdge()) {
             return null;

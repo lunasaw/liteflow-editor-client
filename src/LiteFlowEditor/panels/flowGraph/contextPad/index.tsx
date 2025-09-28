@@ -47,7 +47,7 @@ const FlowGraphContextPad: React.FC<IProps> = (props) => {
     [flowGraph],
   );
   const onClickMenu = useCallback(
-    (cellType) => {
+    (cellType: any) => {
       if (edge) {
         let targetNode = edge.getTargetNode();
         let { model: targetModel } = targetNode?.getData<INodeData>() || {};

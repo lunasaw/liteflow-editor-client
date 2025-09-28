@@ -1,7 +1,6 @@
-import { Graph, Node } from '@antv/x6';
+import { Graph, KeyValue, Node } from '@antv/x6';
 import { DagreLayout, DagreLayoutOptions } from '@antv/layout';
 import { NODE_WIDTH, RANK_SEP, NODE_SEP, ConditionTypeEnum } from '../constant';
-import { KeyValue } from '@antv/x6/lib/types';
 // import dagre from '@dagrejs/dagre';
 // import ELK from 'elkjs/lib/elk.bundled.js';
 // import cytoscape from 'cytoscape';

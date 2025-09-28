@@ -4,16 +4,15 @@ import classNames from 'classnames';
 import { debounce } from 'lodash';
 import { Modal, Tooltip } from 'antd';
 import { DeleteOutlined, EditOutlined, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import { INodeData } from '../../model/node';
 import styles from './index.module.less';
 import { history } from '../../hooks/useHistory';
 
 const NodeToolBar: React.FC<{ node: Node }> = (props) => {
-  const { node } = props.node;
+  const { node } = props.node as any;
   const {
     model,
     toolbar = { append: true, delete: true, prepend: true, replace: true, collapse: false, },
-  } = node.getData<INodeData>() || {};
+  } = node.getData() || {};
   const showContextPad = debounce((info: any) => {
     node.model?.graph?.trigger('graph:showContextPad', info);
   }, 100);

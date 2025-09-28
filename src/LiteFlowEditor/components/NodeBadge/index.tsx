@@ -6,7 +6,7 @@ import { getIconByType } from '../../cells';
 import styles from './index.module.less';
 
 const NodeBadge: React.FC<{ node: Node }> = (props) => {
-  const { node } = props.node;
+  const { node } = props.node as any;
   const { model } = node.getData();
   let badge = null
   if (model) {

@@ -42,7 +42,7 @@ const FlowGraphContextMenu: React.FC<IProps> = (props) => {
     [flowGraph],
   );
   const onClickMenu = useCallback(
-    ({ key }) => {
+    ({ key } : any) => {
       const handlerMap = Helper.makeMenuHandlerMap(menuConfig);
       const handler = handlerMap[key];
       if (handler) {
