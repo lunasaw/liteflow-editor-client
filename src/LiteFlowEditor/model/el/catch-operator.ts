@@ -225,9 +225,9 @@ export default class CatchOperator extends ELNode {
           this.children[0] = newNode;
           return true;
         }
-        // 3. 如果是在condition之后追加
+        // 3. 如果是在condition之后追加，应该添加到children数组，而不是替换condition
         if (this.condition === index) {
-          this.condition = newNode;
+          this.children[0] = newNode;
           return true;
         }
       }
@@ -268,9 +268,9 @@ export default class CatchOperator extends ELNode {
           this.children[0] = newNode;
           return true;
         }
+        // 3. 如果是在condition之前追加，应该添加到children数组，而不是替换condition
         if (this.condition === index) {
-          // 3. 如果是在condition之前追加
-          this.condition = newNode;
+          this.children[0] = newNode;
           return true;
         }
       }
