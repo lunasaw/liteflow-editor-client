@@ -281,7 +281,7 @@ const DebugPanel: React.FC<IProps> = (props) => {
             <div className={styles.pathTitle}>执行路径</div>
             <div className={styles.pathList}>
               {result.executionPath.map((nodeId, index) => (
-                <React.Fragment key={nodeId}>
+                <React.Fragment key={`${nodeId}-${index}`}>
                   <Tooltip title="点击定位节点">
                     <span
                       className={styles.pathItem}
