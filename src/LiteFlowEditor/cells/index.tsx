@@ -28,6 +28,8 @@ import {default as Not} from './not';
 import {default as Chain} from './chain';
 // 其他辅助节点：虚节点
 import {default as Virtual} from './virtual';
+// 脚本节点
+import {default as Script} from './script';
 
 // AntV X6自定义节点的视图：使用React组件
 import {NodeBadge, NodeToolBar, NodeView} from '../components';
@@ -51,6 +53,7 @@ import {NodeBadge, NodeToolBar, NodeView} from '../components';
   Not,
   Virtual,
   Chain,
+  Script,
 ].forEach((cell: LiteFlowNode) => {
   // 注册AntV X6节点
   const {type, label, icon, node = {}} = cell;
@@ -107,6 +110,7 @@ export {
   Not,
   Virtual,
   Chain,
+  Script,
 };
 
 export interface IGroupItem {
@@ -161,6 +165,14 @@ export const OTHER_GROUP: IGroupItem = {
   ],
 };
 
+export const SCRIPT_GROUP: IGroupItem = {
+  key: 'script',
+  name: '脚本类',
+  cellTypes: [
+    {...Script, type: NodeTypeEnum.SCRIPT, shape: Script.type},
+  ],
+};
+
 export const getIconByType = (nodeType: ConditionTypeEnum | NodeTypeEnum) => {
   switch (nodeType) {
     case ConditionTypeEnum.THEN:
@@ -192,6 +204,14 @@ export const getIconByType = (nodeType: ConditionTypeEnum | NodeTypeEnum) => {
       return Or.icon;
     case ConditionTypeEnum.NOT:
       return Not.icon;
+    case NodeTypeEnum.SCRIPT:
+    case NodeTypeEnum.BOOLEAN_SCRIPT:
+    case NodeTypeEnum.SWITCH_SCRIPT:
+    case NodeTypeEnum.IF_SCRIPT:
+    case NodeTypeEnum.FOR_SCRIPT:
+    case NodeTypeEnum.WHILE_SCRIPT:
+    case NodeTypeEnum.BREAK_SCRIPT:
+      return Script.icon;
     case NodeTypeEnum.COMMON:
     default:
       return Common.icon;

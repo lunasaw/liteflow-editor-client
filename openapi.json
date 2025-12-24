@@ -1,0 +1,2533 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API Documentation",
+    "version" : "1.0"
+  },
+  "paths" : {
+    "/api/getCmpList" : {
+      "get" : {
+        "summary" : "获取LF组件",
+        "description" : "获取LF组件",
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "cmpId" : {
+                        "type" : "string",
+                        "description" : "组件id"
+                      },
+                      "cmpName" : {
+                        "type" : "string",
+                        "description" : "组件编码"
+                      },
+                      "nodeType" : {
+                        "type" : "string",
+                        "description" : "节点类型: common | script | switch_script | boolean_script | for_script"
+                      },
+                      "isScript" : {
+                        "type" : "boolean",
+                        "description" : "是否为脚本节点"
+                      },
+                      "language" : {
+                        "type" : "string",
+                        "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                      },
+                      "script" : {
+                        "type" : "string",
+                        "description" : "脚本内容"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getChainList" : {
+      "get" : {
+        "summary" : "获取LF链",
+        "description" : "获取LF链",
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "chainId" : {
+                        "type" : "string",
+                        "description" : "链id"
+                      },
+                      "chainName" : {
+                        "type" : "string",
+                        "description" : "链名称"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/verifyELExpression" : {
+      "post" : {
+        "summary" : "校验EL表达式",
+        "description" : "校验EL表达式",
+        "parameters" : [ {
+          "name" : "jsonEl",
+          "in" : "query",
+          "description" : "json结构",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "id"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "description" : "类型"
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "description" : "id标签"
+                      },
+                      "tag" : {
+                        "type" : "string",
+                        "description" : "tag标签"
+                      },
+                      "data" : {
+                        "type" : "string",
+                        "description" : "liteflow参数"
+                      }
+                    },
+                    "description" : "属性"
+                  },
+                  "condition" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "description" : "id"
+                      },
+                      "type" : {
+                        "type" : "string",
+                        "description" : "类型"
+                      },
+                      "properties" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id标签"
+                          },
+                          "tag" : {
+                            "type" : "string",
+                            "description" : "tag标签"
+                          },
+                          "data" : {
+                            "type" : "string",
+                            "description" : "liteflow参数"
+                          }
+                        },
+                        "description" : "属性"
+                      },
+                      "condition" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "类型"
+                          },
+                          "properties" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id标签"
+                              },
+                              "tag" : {
+                                "type" : "string",
+                                "description" : "tag标签"
+                              },
+                              "data" : {
+                                "type" : "string",
+                                "description" : "liteflow参数"
+                              }
+                            },
+                            "description" : "属性"
+                          },
+                          "condition" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "条件"
+                          },
+                          "children" : {
+                            "type" : "array",
+                            "description" : "子集",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "组件属性VO\nelJson结构对象"
+                            }
+                          }
+                        },
+                        "description" : "条件"
+                      },
+                      "children" : {
+                        "type" : "array",
+                        "description" : "子集",
+                        "items" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "类型"
+                            },
+                            "properties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "id" : {
+                                  "type" : "string",
+                                  "description" : "id标签"
+                                },
+                                "tag" : {
+                                  "type" : "string",
+                                  "description" : "tag标签"
+                                },
+                                "data" : {
+                                  "type" : "string",
+                                  "description" : "liteflow参数"
+                                }
+                              },
+                              "description" : "属性"
+                            },
+                            "condition" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "条件"
+                            },
+                            "children" : {
+                              "type" : "array",
+                              "description" : "子集",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "组件属性VO\nelJson结构对象"
+                              }
+                            }
+                          },
+                          "description" : "组件属性VO\nelJson结构对象"
+                        }
+                      }
+                    },
+                    "description" : "条件"
+                  },
+                  "children" : {
+                    "type" : "array",
+                    "description" : "子集",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "description" : "id"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "类型"
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id标签"
+                            },
+                            "tag" : {
+                              "type" : "string",
+                              "description" : "tag标签"
+                            },
+                            "data" : {
+                              "type" : "string",
+                              "description" : "liteflow参数"
+                            }
+                          },
+                          "description" : "属性"
+                        },
+                        "condition" : {
+                          "type" : "object",
+                          "properties" : { },
+                          "description" : "条件"
+                        },
+                        "children" : {
+                          "type" : "array",
+                          "description" : "子集",
+                          "items" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "组件属性VO\nelJson结构对象"
+                          }
+                        }
+                      },
+                      "description" : "组件属性VO\nelJson结构对象"
+                    }
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "校验结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "校验结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/createChain" : {
+      "post" : {
+        "summary" : "新增LF链",
+        "description" : "新增LF链",
+        "parameters" : [ {
+          "name" : "createChainVO",
+          "in" : "query",
+          "description" : "构建Chain入参",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "chainId" : {
+                    "type" : "string",
+                    "description" : "需要新增chain的id"
+                  },
+                  "elJson" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "description" : "id"
+                      },
+                      "type" : {
+                        "type" : "string",
+                        "description" : "类型"
+                      },
+                      "properties" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id标签"
+                          },
+                          "tag" : {
+                            "type" : "string",
+                            "description" : "tag标签"
+                          },
+                          "data" : {
+                            "type" : "string",
+                            "description" : "liteflow参数"
+                          }
+                        },
+                        "description" : "属性"
+                      },
+                      "condition" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "类型"
+                          },
+                          "properties" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id标签"
+                              },
+                              "tag" : {
+                                "type" : "string",
+                                "description" : "tag标签"
+                              },
+                              "data" : {
+                                "type" : "string",
+                                "description" : "liteflow参数"
+                              }
+                            },
+                            "description" : "属性"
+                          },
+                          "condition" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "条件"
+                          },
+                          "children" : {
+                            "type" : "array",
+                            "description" : "子集",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "组件属性VO\nelJson结构对象"
+                            }
+                          }
+                        },
+                        "description" : "条件"
+                      },
+                      "children" : {
+                        "type" : "array",
+                        "description" : "子集",
+                        "items" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "类型"
+                            },
+                            "properties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "id" : {
+                                  "type" : "string",
+                                  "description" : "id标签"
+                                },
+                                "tag" : {
+                                  "type" : "string",
+                                  "description" : "tag标签"
+                                },
+                                "data" : {
+                                  "type" : "string",
+                                  "description" : "liteflow参数"
+                                }
+                              },
+                              "description" : "属性"
+                            },
+                            "condition" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "条件"
+                            },
+                            "children" : {
+                              "type" : "array",
+                              "description" : "子集",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "组件属性VO\nelJson结构对象"
+                              }
+                            }
+                          },
+                          "description" : "组件属性VO\nelJson结构对象"
+                        }
+                      }
+                    },
+                    "description" : "需要新增的elJson结构"
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deleteChain" : {
+      "post" : {
+        "summary" : "删除LF链",
+        "description" : "删除LF链",
+        "parameters" : [ {
+          "name" : "deleteChainVO",
+          "in" : "query",
+          "description" : "销毁Chain入参",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "chainId" : {
+                    "type" : "string",
+                    "description" : "需要删除chain的id"
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/updateChain" : {
+      "post" : {
+        "summary" : "修改LF链",
+        "description" : "修改LF链",
+        "parameters" : [ {
+          "name" : "updateChainVO",
+          "in" : "query",
+          "description" : "更新Chain入参",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "chainId" : {
+                    "type" : "string",
+                    "description" : "需要修改chain的id"
+                  },
+                  "elJson" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "description" : "id"
+                      },
+                      "type" : {
+                        "type" : "string",
+                        "description" : "类型"
+                      },
+                      "properties" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id标签"
+                          },
+                          "tag" : {
+                            "type" : "string",
+                            "description" : "tag标签"
+                          },
+                          "data" : {
+                            "type" : "string",
+                            "description" : "liteflow参数"
+                          }
+                        },
+                        "description" : "属性"
+                      },
+                      "condition" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "类型"
+                          },
+                          "properties" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id标签"
+                              },
+                              "tag" : {
+                                "type" : "string",
+                                "description" : "tag标签"
+                              },
+                              "data" : {
+                                "type" : "string",
+                                "description" : "liteflow参数"
+                              }
+                            },
+                            "description" : "属性"
+                          },
+                          "condition" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "条件"
+                          },
+                          "children" : {
+                            "type" : "array",
+                            "description" : "子集",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "组件属性VO\nelJson结构对象"
+                            }
+                          }
+                        },
+                        "description" : "条件"
+                      },
+                      "children" : {
+                        "type" : "array",
+                        "description" : "子集",
+                        "items" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "类型"
+                            },
+                            "properties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "id" : {
+                                  "type" : "string",
+                                  "description" : "id标签"
+                                },
+                                "tag" : {
+                                  "type" : "string",
+                                  "description" : "tag标签"
+                                },
+                                "data" : {
+                                  "type" : "string",
+                                  "description" : "liteflow参数"
+                                }
+                              },
+                              "description" : "属性"
+                            },
+                            "condition" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "条件"
+                            },
+                            "children" : {
+                              "type" : "array",
+                              "description" : "子集",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "组件属性VO\nelJson结构对象"
+                              }
+                            }
+                          },
+                          "description" : "组件属性VO\nelJson结构对象"
+                        }
+                      }
+                    },
+                    "description" : "需要修改的elJson结构"
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getChainById" : {
+      "get" : {
+        "summary" : "获取LF链详情",
+        "description" : "获取LF链详情",
+        "parameters" : [ {
+          "name" : "chainId",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "nullable" : false
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "elInfo" : {
+                      "type" : "object",
+                      "properties" : {
+                        "chainId" : {
+                          "type" : "string",
+                          "description" : "链名称"
+                        },
+                        "elStr" : {
+                          "type" : "string",
+                          "description" : "EL表达式"
+                        }
+                      },
+                      "description" : "el结构"
+                    },
+                    "elJson" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "description" : "id"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "类型"
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id标签"
+                            },
+                            "tag" : {
+                              "type" : "string",
+                              "description" : "tag标签"
+                            },
+                            "data" : {
+                              "type" : "string",
+                              "description" : "liteflow参数"
+                            }
+                          },
+                          "description" : "属性"
+                        },
+                        "condition" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "类型"
+                            },
+                            "properties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "id" : {
+                                  "type" : "string",
+                                  "description" : "id标签"
+                                },
+                                "tag" : {
+                                  "type" : "string",
+                                  "description" : "tag标签"
+                                },
+                                "data" : {
+                                  "type" : "string",
+                                  "description" : "liteflow参数"
+                                }
+                              },
+                              "description" : "属性"
+                            },
+                            "condition" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "条件"
+                            },
+                            "children" : {
+                              "type" : "array",
+                              "description" : "子集",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "组件属性VO\nelJson结构对象"
+                              }
+                            }
+                          },
+                          "description" : "条件"
+                        },
+                        "children" : {
+                          "type" : "array",
+                          "description" : "子集",
+                          "items" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id"
+                              },
+                              "type" : {
+                                "type" : "string",
+                                "description" : "类型"
+                              },
+                              "properties" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "id" : {
+                                    "type" : "string",
+                                    "description" : "id标签"
+                                  },
+                                  "tag" : {
+                                    "type" : "string",
+                                    "description" : "tag标签"
+                                  },
+                                  "data" : {
+                                    "type" : "string",
+                                    "description" : "liteflow参数"
+                                  }
+                                },
+                                "description" : "属性"
+                              },
+                              "condition" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "条件"
+                              },
+                              "children" : {
+                                "type" : "array",
+                                "description" : "子集",
+                                "items" : {
+                                  "type" : "object",
+                                  "properties" : { },
+                                  "description" : "组件属性VO\nelJson结构对象"
+                                }
+                              }
+                            },
+                            "description" : "组件属性VO\nelJson结构对象"
+                          }
+                        }
+                      },
+                      "description" : "elJson结构"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/generateJsonEL" : {
+      "post" : {
+        "summary" : "EL表达式转成JSON结构",
+        "description" : "EL表达式转成JSON结构",
+        "parameters" : [ {
+          "name" : "elInfo",
+          "in" : "query",
+          "description" : "EL语句",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "chainId" : {
+                    "type" : "string",
+                    "description" : "链名称"
+                  },
+                  "elStr" : {
+                    "type" : "string",
+                    "description" : "EL表达式"
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "string",
+                      "description" : "id"
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "description" : "类型"
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "description" : "id标签"
+                        },
+                        "tag" : {
+                          "type" : "string",
+                          "description" : "tag标签"
+                        },
+                        "data" : {
+                          "type" : "string",
+                          "description" : "liteflow参数"
+                        }
+                      },
+                      "description" : "属性"
+                    },
+                    "condition" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "description" : "id"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "类型"
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id标签"
+                            },
+                            "tag" : {
+                              "type" : "string",
+                              "description" : "tag标签"
+                            },
+                            "data" : {
+                              "type" : "string",
+                              "description" : "liteflow参数"
+                            }
+                          },
+                          "description" : "属性"
+                        },
+                        "condition" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "类型"
+                            },
+                            "properties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "id" : {
+                                  "type" : "string",
+                                  "description" : "id标签"
+                                },
+                                "tag" : {
+                                  "type" : "string",
+                                  "description" : "tag标签"
+                                },
+                                "data" : {
+                                  "type" : "string",
+                                  "description" : "liteflow参数"
+                                }
+                              },
+                              "description" : "属性"
+                            },
+                            "condition" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "条件"
+                            },
+                            "children" : {
+                              "type" : "array",
+                              "description" : "子集",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "组件属性VO\nelJson结构对象"
+                              }
+                            }
+                          },
+                          "description" : "条件"
+                        },
+                        "children" : {
+                          "type" : "array",
+                          "description" : "子集",
+                          "items" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id"
+                              },
+                              "type" : {
+                                "type" : "string",
+                                "description" : "类型"
+                              },
+                              "properties" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "id" : {
+                                    "type" : "string",
+                                    "description" : "id标签"
+                                  },
+                                  "tag" : {
+                                    "type" : "string",
+                                    "description" : "tag标签"
+                                  },
+                                  "data" : {
+                                    "type" : "string",
+                                    "description" : "liteflow参数"
+                                  }
+                                },
+                                "description" : "属性"
+                              },
+                              "condition" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "条件"
+                              },
+                              "children" : {
+                                "type" : "array",
+                                "description" : "子集",
+                                "items" : {
+                                  "type" : "object",
+                                  "properties" : { },
+                                  "description" : "组件属性VO\nelJson结构对象"
+                                }
+                              }
+                            },
+                            "description" : "组件属性VO\nelJson结构对象"
+                          }
+                        }
+                      },
+                      "description" : "条件"
+                    },
+                    "children" : {
+                      "type" : "array",
+                      "description" : "子集",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "类型"
+                          },
+                          "properties" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id标签"
+                              },
+                              "tag" : {
+                                "type" : "string",
+                                "description" : "tag标签"
+                              },
+                              "data" : {
+                                "type" : "string",
+                                "description" : "liteflow参数"
+                              }
+                            },
+                            "description" : "属性"
+                          },
+                          "condition" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "条件"
+                          },
+                          "children" : {
+                            "type" : "array",
+                            "description" : "子集",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "组件属性VO\nelJson结构对象"
+                            }
+                          }
+                        },
+                        "description" : "组件属性VO\nelJson结构对象"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/generateEL" : {
+      "post" : {
+        "summary" : "JSON结构转EL表达式",
+        "description" : "JSON结构转EL表达式",
+        "parameters" : [ {
+          "name" : "jsonEl",
+          "in" : "query",
+          "description" : "json结构",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "id" : {
+                    "type" : "string",
+                    "description" : "id"
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "description" : "类型"
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "description" : "id标签"
+                      },
+                      "tag" : {
+                        "type" : "string",
+                        "description" : "tag标签"
+                      },
+                      "data" : {
+                        "type" : "string",
+                        "description" : "liteflow参数"
+                      }
+                    },
+                    "description" : "属性"
+                  },
+                  "condition" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string",
+                        "description" : "id"
+                      },
+                      "type" : {
+                        "type" : "string",
+                        "description" : "类型"
+                      },
+                      "properties" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id标签"
+                          },
+                          "tag" : {
+                            "type" : "string",
+                            "description" : "tag标签"
+                          },
+                          "data" : {
+                            "type" : "string",
+                            "description" : "liteflow参数"
+                          }
+                        },
+                        "description" : "属性"
+                      },
+                      "condition" : {
+                        "type" : "object",
+                        "properties" : {
+                          "id" : {
+                            "type" : "string",
+                            "description" : "id"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "类型"
+                          },
+                          "properties" : {
+                            "type" : "object",
+                            "properties" : {
+                              "id" : {
+                                "type" : "string",
+                                "description" : "id标签"
+                              },
+                              "tag" : {
+                                "type" : "string",
+                                "description" : "tag标签"
+                              },
+                              "data" : {
+                                "type" : "string",
+                                "description" : "liteflow参数"
+                              }
+                            },
+                            "description" : "属性"
+                          },
+                          "condition" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "条件"
+                          },
+                          "children" : {
+                            "type" : "array",
+                            "description" : "子集",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "组件属性VO\nelJson结构对象"
+                            }
+                          }
+                        },
+                        "description" : "条件"
+                      },
+                      "children" : {
+                        "type" : "array",
+                        "description" : "子集",
+                        "items" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "类型"
+                            },
+                            "properties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "id" : {
+                                  "type" : "string",
+                                  "description" : "id标签"
+                                },
+                                "tag" : {
+                                  "type" : "string",
+                                  "description" : "tag标签"
+                                },
+                                "data" : {
+                                  "type" : "string",
+                                  "description" : "liteflow参数"
+                                }
+                              },
+                              "description" : "属性"
+                            },
+                            "condition" : {
+                              "type" : "object",
+                              "properties" : { },
+                              "description" : "条件"
+                            },
+                            "children" : {
+                              "type" : "array",
+                              "description" : "子集",
+                              "items" : {
+                                "type" : "object",
+                                "properties" : { },
+                                "description" : "组件属性VO\nelJson结构对象"
+                              }
+                            }
+                          },
+                          "description" : "组件属性VO\nelJson结构对象"
+                        }
+                      }
+                    },
+                    "description" : "条件"
+                  },
+                  "children" : {
+                    "type" : "array",
+                    "description" : "子集",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "description" : "id"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "类型"
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "string",
+                              "description" : "id标签"
+                            },
+                            "tag" : {
+                              "type" : "string",
+                              "description" : "tag标签"
+                            },
+                            "data" : {
+                              "type" : "string",
+                              "description" : "liteflow参数"
+                            }
+                          },
+                          "description" : "属性"
+                        },
+                        "condition" : {
+                          "type" : "object",
+                          "properties" : { },
+                          "description" : "条件"
+                        },
+                        "children" : {
+                          "type" : "array",
+                          "description" : "子集",
+                          "items" : {
+                            "type" : "object",
+                            "properties" : { },
+                            "description" : "组件属性VO\nelJson结构对象"
+                          }
+                        }
+                      },
+                      "description" : "组件属性VO\nelJson结构对象"
+                    }
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "chainId" : {
+                      "type" : "string",
+                      "description" : "链名称"
+                    },
+                    "elStr" : {
+                      "type" : "string",
+                      "description" : "EL表达式"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/createScriptNode" : {
+      "post" : {
+        "summary" : "创建脚本节点",
+        "description" : "创建脚本节点",
+        "parameters" : [ {
+          "name" : "scriptNodeVO",
+          "in" : "query",
+          "description" : "脚本节点信息",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "required" : [ "language", "nodeId", "nodeType", "script" ],
+                "type" : "object",
+                "properties" : {
+                  "nodeId" : {
+                    "type" : "string",
+                    "description" : "节点ID"
+                  },
+                  "nodeName" : {
+                    "type" : "string",
+                    "description" : "节点名称"
+                  },
+                  "nodeType" : {
+                    "type" : "string",
+                    "description" : "节点类型: script | switch_script | boolean_script | for_script"
+                  },
+                  "language" : {
+                    "type" : "string",
+                    "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                  },
+                  "script" : {
+                    "type" : "string",
+                    "description" : "脚本内容"
+                  },
+                  "params" : {
+                    "type" : "array",
+                    "description" : "参数定义列表，声明该节点执行所需的输入参数",
+                    "items" : {
+                      "required" : [ "key", "type" ],
+                      "type" : "object",
+                      "properties" : {
+                        "key" : {
+                          "type" : "string",
+                          "description" : "参数键名"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "description" : "参数名称/描述"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+                        },
+                        "required" : {
+                          "type" : "boolean",
+                          "description" : "是否必填"
+                        },
+                        "defaultValue" : {
+                          "type" : "string",
+                          "description" : "默认值"
+                        },
+                        "description" : {
+                          "type" : "string",
+                          "description" : "参数描述/备注"
+                        }
+                      },
+                      "description" : "节点参数定义"
+                    }
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/saveOrUpdateScriptNode" : {
+      "post" : {
+        "summary" : "保存或更新脚本节点",
+        "description" : "保存或更新脚本节点",
+        "parameters" : [ {
+          "name" : "scriptNodeVO",
+          "in" : "query",
+          "description" : "脚本节点信息",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "required" : [ "language", "nodeId", "nodeType", "script" ],
+                "type" : "object",
+                "properties" : {
+                  "nodeId" : {
+                    "type" : "string",
+                    "description" : "节点ID"
+                  },
+                  "nodeName" : {
+                    "type" : "string",
+                    "description" : "节点名称"
+                  },
+                  "nodeType" : {
+                    "type" : "string",
+                    "description" : "节点类型: script | switch_script | boolean_script | for_script"
+                  },
+                  "language" : {
+                    "type" : "string",
+                    "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                  },
+                  "script" : {
+                    "type" : "string",
+                    "description" : "脚本内容"
+                  },
+                  "params" : {
+                    "type" : "array",
+                    "description" : "参数定义列表，声明该节点执行所需的输入参数",
+                    "items" : {
+                      "required" : [ "key", "type" ],
+                      "type" : "object",
+                      "properties" : {
+                        "key" : {
+                          "type" : "string",
+                          "description" : "参数键名"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "description" : "参数名称/描述"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+                        },
+                        "required" : {
+                          "type" : "boolean",
+                          "description" : "是否必填"
+                        },
+                        "defaultValue" : {
+                          "type" : "string",
+                          "description" : "默认值"
+                        },
+                        "description" : {
+                          "type" : "string",
+                          "description" : "参数描述/备注"
+                        }
+                      },
+                      "description" : "节点参数定义"
+                    }
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/updateScriptNode" : {
+      "post" : {
+        "summary" : "更新脚本节点",
+        "description" : "更新脚本节点",
+        "parameters" : [ {
+          "name" : "scriptNodeVO",
+          "in" : "query",
+          "description" : "脚本节点信息",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "required" : [ "language", "nodeId", "nodeType", "script" ],
+                "type" : "object",
+                "properties" : {
+                  "nodeId" : {
+                    "type" : "string",
+                    "description" : "节点ID"
+                  },
+                  "nodeName" : {
+                    "type" : "string",
+                    "description" : "节点名称"
+                  },
+                  "nodeType" : {
+                    "type" : "string",
+                    "description" : "节点类型: script | switch_script | boolean_script | for_script"
+                  },
+                  "language" : {
+                    "type" : "string",
+                    "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                  },
+                  "script" : {
+                    "type" : "string",
+                    "description" : "脚本内容"
+                  },
+                  "params" : {
+                    "type" : "array",
+                    "description" : "参数定义列表，声明该节点执行所需的输入参数",
+                    "items" : {
+                      "required" : [ "key", "type" ],
+                      "type" : "object",
+                      "properties" : {
+                        "key" : {
+                          "type" : "string",
+                          "description" : "参数键名"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "description" : "参数名称/描述"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+                        },
+                        "required" : {
+                          "type" : "boolean",
+                          "description" : "是否必填"
+                        },
+                        "defaultValue" : {
+                          "type" : "string",
+                          "description" : "默认值"
+                        },
+                        "description" : {
+                          "type" : "string",
+                          "description" : "参数描述/备注"
+                        }
+                      },
+                      "description" : "节点参数定义"
+                    }
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deleteScriptNode" : {
+      "post" : {
+        "summary" : "删除脚本节点",
+        "description" : "删除脚本节点",
+        "parameters" : [ {
+          "name" : "deleteScriptNodeVO",
+          "in" : "query",
+          "description" : "删除脚本节点参数",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "required" : [ "nodeId" ],
+                "type" : "object",
+                "properties" : {
+                  "nodeId" : {
+                    "type" : "string",
+                    "description" : "节点ID"
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getScriptNodeById" : {
+      "get" : {
+        "summary" : "获取脚本节点详情",
+        "description" : "获取脚本节点详情",
+        "parameters" : [ {
+          "name" : "nodeId",
+          "in" : "query",
+          "description" : "节点ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "nullable" : false
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "required" : [ "language", "nodeId", "nodeType", "script" ],
+                  "type" : "object",
+                  "properties" : {
+                    "nodeId" : {
+                      "type" : "string",
+                      "description" : "节点ID"
+                    },
+                    "nodeName" : {
+                      "type" : "string",
+                      "description" : "节点名称"
+                    },
+                    "nodeType" : {
+                      "type" : "string",
+                      "description" : "节点类型: script | switch_script | boolean_script | for_script"
+                    },
+                    "language" : {
+                      "type" : "string",
+                      "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                    },
+                    "script" : {
+                      "type" : "string",
+                      "description" : "脚本内容"
+                    },
+                    "params" : {
+                      "type" : "array",
+                      "description" : "参数定义列表，声明该节点执行所需的输入参数",
+                      "items" : {
+                        "required" : [ "key", "type" ],
+                        "type" : "object",
+                        "properties" : {
+                          "key" : {
+                            "type" : "string",
+                            "description" : "参数键名"
+                          },
+                          "name" : {
+                            "type" : "string",
+                            "description" : "参数名称/描述"
+                          },
+                          "type" : {
+                            "type" : "string",
+                            "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+                          },
+                          "required" : {
+                            "type" : "boolean",
+                            "description" : "是否必填"
+                          },
+                          "defaultValue" : {
+                            "type" : "string",
+                            "description" : "默认值"
+                          },
+                          "description" : {
+                            "type" : "string",
+                            "description" : "参数描述/备注"
+                          }
+                        },
+                        "description" : "节点参数定义"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getScriptNodeList" : {
+      "get" : {
+        "summary" : "获取脚本节点列表",
+        "description" : "获取脚本节点列表",
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "required" : [ "language", "nodeId", "nodeType", "script" ],
+                    "type" : "object",
+                    "properties" : {
+                      "nodeId" : {
+                        "type" : "string",
+                        "description" : "节点ID"
+                      },
+                      "nodeName" : {
+                        "type" : "string",
+                        "description" : "节点名称"
+                      },
+                      "nodeType" : {
+                        "type" : "string",
+                        "description" : "节点类型: script | switch_script | boolean_script | for_script"
+                      },
+                      "language" : {
+                        "type" : "string",
+                        "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                      },
+                      "script" : {
+                        "type" : "string",
+                        "description" : "脚本内容"
+                      },
+                      "params" : {
+                        "type" : "array",
+                        "description" : "参数定义列表，声明该节点执行所需的输入参数",
+                        "items" : {
+                          "required" : [ "key", "type" ],
+                          "type" : "object",
+                          "properties" : {
+                            "key" : {
+                              "type" : "string",
+                              "description" : "参数键名"
+                            },
+                            "name" : {
+                              "type" : "string",
+                              "description" : "参数名称/描述"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+                            },
+                            "required" : {
+                              "type" : "boolean",
+                              "description" : "是否必填"
+                            },
+                            "defaultValue" : {
+                              "type" : "string",
+                              "description" : "默认值"
+                            },
+                            "description" : {
+                              "type" : "string",
+                              "description" : "参数描述/备注"
+                            }
+                          },
+                          "description" : "节点参数定义"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/verifyScript" : {
+      "post" : {
+        "summary" : "验证脚本语法",
+        "description" : "验证脚本语法",
+        "parameters" : [ {
+          "name" : "scriptNodeVO",
+          "in" : "query",
+          "description" : "脚本节点信息",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "required" : [ "language", "nodeId", "nodeType", "script" ],
+                "type" : "object",
+                "properties" : {
+                  "nodeId" : {
+                    "type" : "string",
+                    "description" : "节点ID"
+                  },
+                  "nodeName" : {
+                    "type" : "string",
+                    "description" : "节点名称"
+                  },
+                  "nodeType" : {
+                    "type" : "string",
+                    "description" : "节点类型: script | switch_script | boolean_script | for_script"
+                  },
+                  "language" : {
+                    "type" : "string",
+                    "description" : "脚本语言: groovy | javascript | python | qlexpress | lua | aviator | kotlin"
+                  },
+                  "script" : {
+                    "type" : "string",
+                    "description" : "脚本内容"
+                  },
+                  "params" : {
+                    "type" : "array",
+                    "description" : "参数定义列表，声明该节点执行所需的输入参数",
+                    "items" : {
+                      "required" : [ "key", "type" ],
+                      "type" : "object",
+                      "properties" : {
+                        "key" : {
+                          "type" : "string",
+                          "description" : "参数键名"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "description" : "参数名称/描述"
+                        },
+                        "type" : {
+                          "type" : "string",
+                          "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+                        },
+                        "required" : {
+                          "type" : "boolean",
+                          "description" : "是否必填"
+                        },
+                        "defaultValue" : {
+                          "type" : "string",
+                          "description" : "默认值"
+                        },
+                        "description" : {
+                          "type" : "string",
+                          "description" : "参数描述/备注"
+                        }
+                      },
+                      "description" : "节点参数定义"
+                    }
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "校验结果编码"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "校验结果信息"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getNodeTypeInfo" : {
+      "get" : {
+        "summary" : "获取节点类型信息",
+        "description" : "获取节点类型信息",
+        "parameters" : [ {
+          "name" : "nodeId",
+          "in" : "query",
+          "description" : "节点ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "nullable" : false
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "nodeId" : {
+                      "type" : "string",
+                      "description" : "节点 ID"
+                    },
+                    "nodeName" : {
+                      "type" : "string",
+                      "description" : "节点名称"
+                    },
+                    "nodeType" : {
+                      "type" : "string",
+                      "description" : "脚本类型：script, boolean_script, switch_script, for_script"
+                    },
+                    "language" : {
+                      "type" : "string",
+                      "description" : "脚本语言：groovy, javascript, python 等"
+                    },
+                    "isScriptNode" : {
+                      "type" : "boolean",
+                      "description" : "是否为脚本节点"
+                    },
+                    "liteflowNodeType" : {
+                      "type" : "string",
+                      "description" : "LiteFlow 内部节点类型枚举值"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getNodeTypeMap" : {
+      "get" : {
+        "summary" : "获取所有节点类型映射",
+        "description" : "获取所有节点类型映射",
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "key" : {
+                      "type" : "object",
+                      "properties" : {
+                        "nodeId" : {
+                          "type" : "string",
+                          "description" : "节点 ID"
+                        },
+                        "nodeName" : {
+                          "type" : "string",
+                          "description" : "节点名称"
+                        },
+                        "nodeType" : {
+                          "type" : "string",
+                          "description" : "脚本类型：script, boolean_script, switch_script, for_script"
+                        },
+                        "language" : {
+                          "type" : "string",
+                          "description" : "脚本语言：groovy, javascript, python 等"
+                        },
+                        "isScriptNode" : {
+                          "type" : "boolean",
+                          "description" : "是否为脚本节点"
+                        },
+                        "liteflowNodeType" : {
+                          "type" : "string",
+                          "description" : "LiteFlow 内部节点类型枚举值"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/executeChain" : {
+      "post" : {
+        "summary" : "执行Chain",
+        "description" : "执行Chain",
+        "parameters" : [ {
+          "name" : "request",
+          "in" : "query",
+          "description" : "执行请求",
+          "required" : true,
+          "schema" : {
+            "type" : "",
+            "nullable" : false
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "required" : [ "chainId" ],
+                "type" : "object",
+                "properties" : {
+                  "chainId" : {
+                    "type" : "string",
+                    "description" : "Chain ID"
+                  },
+                  "requestData" : {
+                    "type" : "object",
+                    "properties" : {
+                      "key" : {
+                        "type" : "object",
+                        "properties" : { }
+                      }
+                    },
+                    "description" : "请求参数（会放入Context中）"
+                  },
+                  "timeout" : {
+                    "type" : "integer",
+                    "description" : "超时时间（毫秒），默认30000",
+                    "format" : "int64"
+                  }
+                },
+                "description" : ""
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "string",
+                      "description" : "处理结果编码（S=成功，E=失败）"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "description" : "处理结果信息"
+                    },
+                    "success" : {
+                      "type" : "boolean",
+                      "description" : "是否执行成功"
+                    },
+                    "chainId" : {
+                      "type" : "string",
+                      "description" : "执行的Chain ID"
+                    },
+                    "executionTime" : {
+                      "type" : "integer",
+                      "description" : "总执行耗时（毫秒）",
+                      "format" : "int64"
+                    },
+                    "nodeCount" : {
+                      "type" : "integer",
+                      "description" : "执行的节点数量"
+                    },
+                    "responseData" : {
+                      "type" : "object",
+                      "properties" : {
+                        "key" : {
+                          "type" : "object",
+                          "properties" : { }
+                        }
+                      },
+                      "description" : "执行结束后的Context数据"
+                    },
+                    "stepDetails" : {
+                      "type" : "array",
+                      "description" : "各节点执行详情",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "nodeId" : {
+                            "type" : "string",
+                            "description" : "节点ID"
+                          },
+                          "nodeName" : {
+                            "type" : "string",
+                            "description" : "节点名称"
+                          },
+                          "nodeType" : {
+                            "type" : "string",
+                            "description" : "节点类型"
+                          },
+                          "tag" : {
+                            "type" : "string",
+                            "description" : "节点标签"
+                          },
+                          "stepIndex" : {
+                            "type" : "integer",
+                            "description" : "执行顺序（从1开始）"
+                          },
+                          "success" : {
+                            "type" : "boolean",
+                            "description" : "是否执行成功"
+                          },
+                          "timeSpent" : {
+                            "type" : "integer",
+                            "description" : "执行耗时（毫秒）",
+                            "format" : "int64"
+                          },
+                          "inputContext" : {
+                            "type" : "object",
+                            "properties" : {
+                              "key" : {
+                                "type" : "object",
+                                "properties" : { }
+                              }
+                            },
+                            "description" : "执行前的Context快照"
+                          },
+                          "outputContext" : {
+                            "type" : "object",
+                            "properties" : {
+                              "key" : {
+                                "type" : "object",
+                                "properties" : { }
+                              }
+                            },
+                            "description" : "执行后的Context快照"
+                          },
+                          "exception" : {
+                            "type" : "string",
+                            "description" : "异常信息（如果有）"
+                          }
+                        },
+                        "description" : "节点执行步骤信息"
+                      }
+                    },
+                    "executionPath" : {
+                      "type" : "array",
+                      "description" : "执行路径（节点ID列表）",
+                      "items" : {
+                        "type" : "string"
+                      }
+                    },
+                    "requestId" : {
+                      "type" : "string",
+                      "description" : "请求ID（用于追踪）"
+                    },
+                    "exceptionStack" : {
+                      "type" : "string",
+                      "description" : "异常堆栈信息（仅失败时返回）"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Property\nelJson结构对象的属性" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "id标签"
+          },
+          "tag" : {
+            "type" : "string",
+            "description" : "tag标签"
+          },
+          "data" : {
+            "type" : "string",
+            "description" : "liteflow参数"
+          }
+        },
+        "description" : "属性"
+      },
+      "组件属性VO\nelJson结构对象" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "id"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "类型"
+          },
+          "properties" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "string",
+                "description" : "id标签"
+              },
+              "tag" : {
+                "type" : "string",
+                "description" : "tag标签"
+              },
+              "data" : {
+                "type" : "string",
+                "description" : "liteflow参数"
+              }
+            },
+            "description" : "属性"
+          },
+          "condition" : {
+            "type" : "object",
+            "properties" : { },
+            "description" : "条件"
+          },
+          "children" : {
+            "type" : "array",
+            "description" : "子集",
+            "items" : {
+              "type" : "object",
+              "properties" : { },
+              "description" : "组件属性VO\nelJson结构对象"
+            }
+          }
+        },
+        "description" : "组件属性VO\nelJson结构对象"
+      },
+      "ELReqVO\nel结构对象" : {
+        "type" : "object",
+        "properties" : {
+          "chainId" : {
+            "type" : "string",
+            "description" : "链名称"
+          },
+          "elStr" : {
+            "type" : "string",
+            "description" : "EL表达式"
+          }
+        },
+        "description" : "el结构"
+      },
+      "节点参数定义" : {
+        "required" : [ "key", "type" ],
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string",
+            "description" : "参数键名"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "参数名称/描述"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "参数数据类型: string | int | long | double | boolean | object | list"
+          },
+          "required" : {
+            "type" : "boolean",
+            "description" : "是否必填"
+          },
+          "defaultValue" : {
+            "type" : "string",
+            "description" : "默认值"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "参数描述/备注"
+          }
+        },
+        "description" : "节点参数定义"
+      },
+      "节点执行步骤信息" : {
+        "type" : "object",
+        "properties" : {
+          "nodeId" : {
+            "type" : "string",
+            "description" : "节点ID"
+          },
+          "nodeName" : {
+            "type" : "string",
+            "description" : "节点名称"
+          },
+          "nodeType" : {
+            "type" : "string",
+            "description" : "节点类型"
+          },
+          "tag" : {
+            "type" : "string",
+            "description" : "节点标签"
+          },
+          "stepIndex" : {
+            "type" : "integer",
+            "description" : "执行顺序（从1开始）"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "是否执行成功"
+          },
+          "timeSpent" : {
+            "type" : "integer",
+            "description" : "执行耗时（毫秒）",
+            "format" : "int64"
+          },
+          "inputContext" : {
+            "type" : "object",
+            "properties" : {
+              "key" : {
+                "type" : "object",
+                "properties" : { }
+              }
+            },
+            "description" : "执行前的Context快照"
+          },
+          "outputContext" : {
+            "type" : "object",
+            "properties" : {
+              "key" : {
+                "type" : "object",
+                "properties" : { }
+              }
+            },
+            "description" : "执行后的Context快照"
+          },
+          "exception" : {
+            "type" : "string",
+            "description" : "异常信息（如果有）"
+          }
+        },
+        "description" : "节点执行步骤信息"
+      }
+    }
+  }
+}

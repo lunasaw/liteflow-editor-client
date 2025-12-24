@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Form, Input, Modal, Select, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import request from 'umi-request';
+import mockData from '../../../../src/LiteFlowEditor/mock';
 import './index.less'
 
 type Chain = {
   chainId: string;
   elJson: any;
 }
+
+// 测试数据集模板
+const MOCK_TEMPLATES = Object.keys(mockData).map(key => ({
+  chainId: `[模板] ${key}`,
+  elJson: mockData[key],
+  isMock: true,
+}));
 
 interface IProps {
   value?: Chain;
@@ -24,6 +32,15 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
+  // 合并服务器数据和测试模板
+  const allTemplates = useMemo(() => {
+    const serverTemplates = chains.map(chain => ({
+      ...chain,
+      isMock: false,
+    }));
+    return [...serverTemplates, ...MOCK_TEMPLATES];
+  }, [chains]);
+
   const showModal = () => {
     setIsModalOpen(true);
     form.resetFields();
@@ -32,8 +49,17 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
   const handleOk = async () => {
     try {
       const { chainId, elTemplateId } = await form.validateFields();
-      const elJson = await request(`/api/getChainById?chainId=${elTemplateId}`, { method: 'GET' })
-        .then((data) => data?.elJson ? data.elJson : {});
+      let elJson = {};
+      if (elTemplateId) {
+        // 检查是否是测试模板
+        const mockTemplate = MOCK_TEMPLATES.find(t => t.chainId === elTemplateId);
+        if (mockTemplate) {
+          elJson = mockTemplate.elJson;
+        } else {
+          elJson = await request(`/api/getChainById?chainId=${elTemplateId}`, { method: 'GET' })
+            .then((data) => data?.elJson ? data.elJson : {});
+        }
+      }
       onChange({ chainId, elJson });
       setIsModalOpen(false);
     } catch (errorInfo) {
@@ -45,9 +71,15 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
     setIsModalOpen(false);
   };
 
-  const handleEmptyCanvas = () => {
-    setIsModalOpen(false);
-    onChange(undefined);
+  const handleEmptyCanvas = async () => {
+    try {
+      // 创建空白画布也需要 chainId
+      const { chainId } = await form.validateFields(['chainId']);
+      onChange({ chainId, elJson: {} });
+      setIsModalOpen(false);
+    } catch (errorInfo) {
+      console.log('Failed:', errorInfo);
+    }
   }
 
   return (
@@ -79,13 +111,14 @@ const ChainSettings: React.FC<IProps> = ({ value = {}, onChange, chains, disable
             <Form.Item name="chainId" label="chainId" rules={[{ required: true, message: '请输入Chain ID' }]}>
               <Input placeholder="请输入Chain ID" allowClear />
             </Form.Item>
-            <Form.Item name="elTemplateId" label="chainTemplate" rules={[{ required: true, message: '请选择Chain模板' }]}>
+            <Form.Item name="elTemplateId" label="chainTemplate" rules={[{ required: false }]}>
               <Select
-                placeholder="请选择Chain模板"
+                placeholder="请选择Chain模板（可选）"
                 style={{width: '100%'}}
-                options={chains.map(({chainId}: Chain) => ({
-                  label: chainId,
-                  value: chainId,
+                allowClear
+                options={allTemplates.map((template) => ({
+                  label: template.chainId,
+                  value: template.chainId,
                 }))}
               />
             </Form.Item>

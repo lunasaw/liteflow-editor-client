@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import { Graph } from '@antv/x6';
 import { Tabs } from 'antd';
 import Basic from './basic';
@@ -7,6 +7,8 @@ import {
   ConditionPropertiesEditor,
 } from './properties';
 import Outline from './outline';
+import DebugPanel from '../debugPanel';
+import GraphContext from '../../context/GraphContext';
 import ELNode from '../../model/node';
 import NodeOperator from '../../model/el/node-operator';
 import styles from './index.module.less';
@@ -19,6 +21,7 @@ interface IProps {
 
 const SettingBar: React.FC<IProps> = (props) => {
   const { flowGraph } = props;
+  const { chainId } = useContext<any>(GraphContext);
 
   const [selectedModel, setSelectedModel] = useState<ELNode | null>(null);
 
@@ -51,9 +54,11 @@ const SettingBar: React.FC<IProps> = (props) => {
 
   if (currentModel?.parent) {
     if (Object.getPrototypeOf(currentModel) === NodeOperator.prototype) {
-      propertiesPanel = <ComponentPropertiesEditor model={currentModel} />;
+      // 所有组件节点都使用统一的属性编辑器（包含脚本编辑功能）
+      // 使用 key 强制在节点切换时重新渲染组件
+      propertiesPanel = <ComponentPropertiesEditor key={currentModel.id} model={currentModel} />;
     } else {
-      propertiesPanel = <ConditionPropertiesEditor model={currentModel} />;
+      propertiesPanel = <ConditionPropertiesEditor key={currentModel.id} model={currentModel} />;
     }
   }
 
@@ -65,6 +70,9 @@ const SettingBar: React.FC<IProps> = (props) => {
         </TabPane>
         <TabPane tab={'结构树'} key={'outline'}>
           <Outline flowGraph={flowGraph} />
+        </TabPane>
+        <TabPane tab={'调试'} key={'debug'}>
+          <DebugPanel flowGraph={flowGraph} chainId={chainId || ''} />
         </TabPane>
       </Tabs>
     </div>

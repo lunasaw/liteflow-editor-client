@@ -12,7 +12,7 @@ interface IOptions {
   selected?: (flowGraph: Graph) => boolean;
 }
 
-interface IBtnWidgetProps {
+export interface IBtnWidgetProps {
   flowGraph: Graph;
 }
 

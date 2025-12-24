@@ -3,3 +3,4 @@ export { useGraph } from './useGraph';
 export { useGraphWrapper } from './useGraphWrapper';
 export { useHistory } from './useHistory';
 export { useModel } from './useModel';
+export { useChainId } from './useChainId';

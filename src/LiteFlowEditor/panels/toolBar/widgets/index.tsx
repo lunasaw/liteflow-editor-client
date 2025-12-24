@@ -11,6 +11,7 @@ import FitWindow from './fitWindow';
 import View from './view';
 import Fullscreen from './fullscreen';
 import Mock from './mock';
+import Execute from './execute';
 
 interface IProps {
   flowGraph: Graph;
@@ -19,7 +20,7 @@ interface IProps {
 const tools: React.FC<IProps>[][] = [
   [Zoom],
   [FitWindow, Undo, Redo, Selection, Save, View, Fullscreen],
-  [Mock],
+  [Mock, Execute],
 ];
 
 export default tools;
