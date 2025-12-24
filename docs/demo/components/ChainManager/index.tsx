@@ -14,6 +14,7 @@ const MOCK_TEMPLATES = Object.keys(mockData).map(key => ({
 
 type Chain = {
   chainId: string;
+  chainName?: string;
   elJson: any;
 }
 
@@ -165,8 +166,8 @@ const ChainManager: React.FC = () => {
 
   // 下拉框选项：服务器数据 + 测试模板
   const selectOptions = useMemo(() => {
-    const serverOptions = chains.map(({ chainId }: Chain) => ({
-      label: chainId,
+    const serverOptions = chains.map(({ chainId, chainName }: Chain) => ({
+      label: chainName || chainId,  // 优先显示中文名称
       value: chainId,
       isTemplate: false,
     }));
@@ -185,20 +186,23 @@ const ChainManager: React.FC = () => {
     // 检查是否是测试模板
     const template = MOCK_TEMPLATES.find(t => t.templateId === value);
     if (template) {
-      // 选择测试模板：加载数据，进入新增状态（清空 chainId）
+      // 选择测试模板：加载数据，清空服务端数据选中
       currentEditor.fromJSON(template.elJson);
-      setCurrentChain(undefined);
+      setCurrentChain(undefined);  // 清空服务端数据，避免覆盖
       return;
     }
 
-    // 选择服务器数据：加载数据，设置 chainId
-    setCurrentChain(chains.find(chain => chain.chainId === value));
-    request(`/api/getChainById?chainId=${value}`, { method: 'GET' })
-      .then((data) => {
-        if (data?.elJson) {
-          currentEditor.fromJSON(data.elJson, value);
-        }
-      });
+    // 选择服务器数据：加载数据，设置 chain 信息
+    const selectedChain = chains.find(chain => chain.chainId === value);
+    if (selectedChain) {
+      setCurrentChain(selectedChain);
+      request(`/api/getChainById?chainId=${value}`, { method: 'GET' })
+        .then((data) => {
+          if (data?.elJson) {
+            currentEditor.fromJSON(data.elJson, value, selectedChain.chainName);
+          }
+        });
+    }
   };
 
   // 校验节点类型
@@ -269,6 +273,9 @@ const ChainManager: React.FC = () => {
     // 转换节点类型为后端格式
     const convertedElJson = convertNodeTypes(elJson);
 
+    // 获取当前编辑器中的 chainName
+    const chainName = currentEditor.getChainName();
+
     // 打印当前创建/更新的 Chain 结构体到控制台
     console.group(`🔗 ${isNew ? '创建' : '更新'} Chain: ${chainId}`);
     console.log('📦 原始 elJson 结构:', JSON.stringify(elJson, null, 2));
@@ -276,6 +283,7 @@ const ChainManager: React.FC = () => {
     console.log('📊 详细信息:');
     console.table({
       ChainID: chainId,
+      Chain名称: chainName || '未设置',
       操作类型: isNew ? '创建新 Chain' : '更新现有 Chain',
       节点数量: extractNodes(elJson).length,
       时间戳: new Date().toLocaleString('zh-CN'),
@@ -284,15 +292,15 @@ const ChainManager: React.FC = () => {
     console.groupEnd();
 
     if (isNew) {
-      // 新建 chain
+      // 新建 chain，包含 chainName
       const data = await request(`/api/createChain`, {
         method: 'POST',
-        data: { chainId, elJson: convertedElJson }
+        data: { chainId, chainName, elJson: convertedElJson }
       });
 
       if (data.code === 'S') {
         Modal.success({ title: '操作成功', content: data.message });
-        const newChain = { chainId, elJson };
+        const newChain = { chainId, chainName, elJson };
         setChains([...chains, newChain]);
         setCurrentChain(newChain);
         currentEditor.setChainId(chainId);
@@ -302,14 +310,20 @@ const ChainManager: React.FC = () => {
         return false;
       }
     } else {
-      // 更新 chain
+      // 更新 chain，包含 chainName
       const data = await request(`/api/updateChain`, {
         method: 'POST',
-        data: { chainId, elJson: convertedElJson }
+        data: { chainId, chainName, elJson: convertedElJson }
       });
 
       if (data.code === 'S') {
         Modal.success({ title: '操作成功', content: data.message });
+        // 更新本地 chains 列表中的 chainName
+        const updatedChains = chains.map(chain =>
+          chain.chainId === chainId ? { ...chain, chainName } : chain
+        );
+        setChains(updatedChains);
+        setCurrentChain({ chainId, chainName, elJson });
         return true;
       } else {
         Modal.error({ title: '操作失败', content: data.message });

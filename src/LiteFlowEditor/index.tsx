@@ -88,8 +88,9 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
     useState<IMenuInfo>(defaultMenuInfo);
   const [contextPadInfo, setContextPadInfo] =
     useState<IPadInfo>(defaultPadInfo);
-  // 内部维护的 chainId，优先使用 prop 传入的值
+  // 内部维护的 chainId 和 chainName，优先使用 prop 传入的值
   const [internalChainId, setInternalChainId] = useState<string | undefined>(propChainId);
+  const [internalChainName, setInternalChainName] = useState<string | undefined>();
 
   // 当 prop 变化时同步更新内部状态
   useEffect(() => {
@@ -100,6 +101,7 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
 
   // 最终使用的 chainId：优先使用 prop，其次使用内部状态
   const chainId = propChainId || internalChainId;
+  const chainName = internalChainName;
 
   const currentEditor = {
     getGraphInstance() {
@@ -113,14 +115,16 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
      * 从 JSON 数据加载 Chain
      * @param data EL JSON 数据
      * @param newChainId 可选的 Chain ID，如果提供则会更新内部的 chainId；如果传入空字符串或不传，则清空 chainId
+     * @param newChainName 可选的 Chain 中文名称
      */
-    fromJSON(data: Record<string, any>, newChainId?: string) {
+    fromJSON(data: Record<string, any>, newChainId?: string, newChainName?: string) {
       const model = ELBuilder.build(data || {});
       setModel(model);
       history.cleanHistory();
       flowGraph?.zoomToFit({minScale: MIN_ZOOM, maxScale: 1});
-      // 更新内部 chainId 状态：有值则设置，无值则清空
+      // 更新内部 chainId 和 chainName 状态：有值则设置，无值则清空
       setInternalChainId(newChainId || undefined);
+      setInternalChainName(newChainName || undefined);
     },
     /**
      * 设置当前编辑的 Chain ID
@@ -134,6 +138,19 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
      */
     getChainId() {
       return chainId;
+    },
+    /**
+     * 设置当前编辑的 Chain 中文名称
+     * @param newChainName Chain 中文名称
+     */
+    setChainName(newChainName: string) {
+      setInternalChainName(newChainName);
+    },
+    /**
+     * 获取当前的 Chain 中文名称
+     */
+    getChainName() {
+      return chainName;
     }
   }
   useImperativeHandle(ref, () => currentEditor as any);
@@ -217,7 +234,7 @@ const LiteFlowEditor = forwardRef<React.FC, ILiteFlowEditorProps>(function (prop
   return (
     // @ts-ignore
     <GraphContext.Provider // @ts-ignore
-      value={{ graph: flowGraph, graphWrapper: wrapperRef, model: null, currentEditor, chainId }}
+      value={{ graph: flowGraph, graphWrapper: wrapperRef, model: null, currentEditor, chainId, chainName }}
     >
       <Layout
         flowGraph={flowGraph}
