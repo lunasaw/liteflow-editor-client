@@ -41,7 +41,7 @@ import NodeOperator from './node-operator';
 export default class ForOperator extends ELNode {
   type = ConditionTypeEnum.FOR;
   parent?: ELNode;
-  condition: ELNode = new NodeOperator(this, NodeTypeEnum.FOR, 'x');
+  condition: ELNode = new NodeOperator(this, NodeTypeEnum.FOR, 'example_for_count');
   children: ELNode[] = [];
   properties?: Properties;
   startNode?: Node;

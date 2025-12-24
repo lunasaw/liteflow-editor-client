@@ -269,6 +269,20 @@ const ChainManager: React.FC = () => {
     // 转换节点类型为后端格式
     const convertedElJson = convertNodeTypes(elJson);
 
+    // 打印当前创建/更新的 Chain 结构体到控制台
+    console.group(`🔗 ${isNew ? '创建' : '更新'} Chain: ${chainId}`);
+    console.log('📦 原始 elJson 结构:', JSON.stringify(elJson, null, 2));
+    console.log('🔄 转换后 elJson 结构:', JSON.stringify(convertedElJson, null, 2));
+    console.log('📊 详细信息:');
+    console.table({
+      ChainID: chainId,
+      操作类型: isNew ? '创建新 Chain' : '更新现有 Chain',
+      节点数量: extractNodes(elJson).length,
+      时间戳: new Date().toLocaleString('zh-CN'),
+    });
+    console.log('📝 提取的所有节点:', extractNodes(elJson));
+    console.groupEnd();
+
     if (isNew) {
       // 新建 chain
       const data = await request(`/api/createChain`, {

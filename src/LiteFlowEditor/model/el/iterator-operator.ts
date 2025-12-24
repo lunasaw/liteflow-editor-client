@@ -36,7 +36,7 @@ import NodeOperator from './node-operator';
 export default class IteratorOperator extends ELNode {
   type = ConditionTypeEnum.ITERATOR;
   parent?: ELNode;
-  condition: ELNode = new NodeOperator(this, NodeTypeEnum.ITERATOR, 'x');
+  condition: ELNode = new NodeOperator(this, NodeTypeEnum.ITERATOR, 'example_iterator');
   children: ELNode[] = [];
   properties?: Properties;
   startNode?: Node;

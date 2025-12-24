@@ -41,7 +41,7 @@ import NodeOperator from './node-operator';
 export default class SwitchOperator extends ELNode {
   type = ConditionTypeEnum.SWITCH;
   parent?: ELNode;
-  condition: ELNode = new NodeOperator(this, NodeTypeEnum.SWITCH, 'x');
+  condition: ELNode = new NodeOperator(this, NodeTypeEnum.SWITCH, 'example_switch_selector');
   children: ELNode[] = [];
   properties?: Properties;
   startNode?: Node;

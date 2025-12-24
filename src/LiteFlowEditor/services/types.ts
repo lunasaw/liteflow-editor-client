@@ -61,6 +61,36 @@ export type ScriptLanguage =
   | 'aviator'
   | 'kotlin';
 
+/**
+ * 参数数据类型
+ */
+export type ParamDataType =
+  | 'string'
+  | 'int'
+  | 'long'
+  | 'double'
+  | 'boolean'
+  | 'object'
+  | 'list';
+
+/**
+ * 节点参数定义
+ */
+export interface ScriptNodeParam {
+  /** 参数键名（必填） */
+  key: string;
+  /** 参数名称/描述 */
+  name?: string;
+  /** 参数数据类型（必填） */
+  type: ParamDataType;
+  /** 是否必填 */
+  required?: boolean;
+  /** 默认值 */
+  defaultValue?: string;
+  /** 参数描述/备注 */
+  description?: string;
+}
+
 /** 脚本节点信息 */
 export interface ScriptNodeVO {
   /** 节点ID（必填） */
@@ -73,6 +103,8 @@ export interface ScriptNodeVO {
   language: ScriptLanguage;
   /** 脚本内容（必填） */
   script: string;
+  /** 参数定义列表 */
+  params?: ScriptNodeParam[];
 }
 
 /** 删除脚本节点参数 */

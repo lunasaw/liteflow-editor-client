@@ -42,7 +42,7 @@ import IntermediateErrorBoundaryIcon from '../../assets/intermediate-event-catch
 export default class CatchOperator extends ELNode {
   type = ConditionTypeEnum.CATCH;
   parent?: ELNode;
-  condition?: ELNode = new NodeOperator(this, NodeTypeEnum.COMMON, 'x');
+  condition?: ELNode = new NodeOperator(this, NodeTypeEnum.COMMON, 'example_catch_handler');
   children: ELNode[] = [];
   properties?: Properties;
   startNode?: Node;

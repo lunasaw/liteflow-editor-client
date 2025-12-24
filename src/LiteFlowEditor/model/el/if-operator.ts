@@ -33,7 +33,7 @@ import NodeOperator from './node-operator';
 export default class IfOperator extends ELNode {
   type = ConditionTypeEnum.IF;
   parent?: ELNode;
-  condition: ELNode = new NodeOperator(this, NodeTypeEnum.IF, 'x');
+  condition: ELNode = new NodeOperator(this, NodeTypeEnum.IF, 'example_if_condition');
   children: ELNode[] = [];
   properties?: Properties;
   startNode?: Node;
