@@ -199,7 +199,8 @@ const ChainManager: React.FC = () => {
       request(`/api/getChainById?chainId=${value}`, { method: 'GET' })
         .then((data) => {
           if (data?.elJson) {
-            currentEditor.fromJSON(data.elJson, value, selectedChain.chainName);
+            // 使用 API 返回的 chainName，而不是本地状态
+            currentEditor.fromJSON(data.elJson, data.chainId || value, data.chainName);
           }
         });
     }
